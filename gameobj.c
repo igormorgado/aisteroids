@@ -1,52 +1,62 @@
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "gameobj.h"
-#include "poly.h"
+#include "phys.h"
 
 
-gameobj* gameobj__init(void)
+gameobj * gameobj__init(void)
 {
     gameobj* self;
-    point3f* position, axis, velocity;
-    sphere3f* boundSphere;
-    
-    
     self = malloc(sizeof *self);
-    position = malloc(sizeof *position);
-    axis = malloc(sizeof *axis);
-    velocity = malloc(sizeof *velocity);
-    boundSphere = malloc(sizeof *boundSphere);
 
     self->size = 1.0;
-    self->position = position;
+
+    point3f* axis;
+    axis = malloc(sizeof *axis);
     self->axis = axis;
+
+    point3f* position;
+    position = malloc(sizeof *position);
+    self->position = position;
+
+    point3f* velocity;
+    velocity = malloc(sizeof *velocity);
     self->velocity = velocity;
-    self->boundSphere = boundSpehere;
+
+    self->acceleration = 0.0;
 
     self->angle = 0.0;
     self->angVelocity = 0.0;
-    self->acceleration = 0.0;
+
+    sphere3f* boundSphere;
+    boundSphere = malloc(sizeof *boundSphere);
+    self->boundSphere = boundSphere;
+
     self->active = false;
+    self->lifeTimer = 0;
     self->type = 0;
     self->objFlags = OBJ_RESET;
+
+    return self;
 }
 
 
 void gameobj__destroy(gameobj *self)
 {
-    free(self->boundSpehere);
+    free(self->boundSphere);
     free(self->velocity);
-    free(self->axis);
     free(self->position);
+    free(self->axis);
     free(self);
 }
 
 
 void gameobj__update(gameobj* self, float dt)
 {
-    self->velocity +=  dt * self->acceleration;
-    self->position +=  dt * self->velocity;
-    self->angle    += (dt * self->angVelocity) % 360;
+    accelerate(self->velocity, self->acceleration, dt);
+    move(self->position, self->velocity, dt);
+    rotate(&(self->angle), self->angVelocity, dt);
 
     self->position->z = 0.0f;
 

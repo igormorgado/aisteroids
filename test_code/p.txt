@@ -1,0 +1,18 @@
+sa = arithmetic_sequence(3,2)
+	d = arithmetic_sequence_data{cur = 1, step = 2}
+	_RET = sequence__create(arithmetic_sequence__next, d)
+		s = Sequence{ next = arithmetic_sequence_next, data = d}
+
+sa = Sequence{next = arithmetic_sequence_next, data = d}
+sa->data = {cur = 1, step = 2}
+sa->next = arithmetic_sequence_next
+sa->data->cur = 1;
+sa->data->step = 2;
+
+
+arithmetic_sequence__next(sa->data)
+	d = sa->data
+	d->cur = += d->step   ==== sa->data->cur += sa->data->step
+	return d->cur === return sa->data->cur
+
+k

@@ -1,11 +1,9 @@
 #ifndef __GAMEOBJ_H__
 #define __GAMEOBJ_H__
 
-enum
-{
-    NO_LIFE_TIMER = -1
-}
-enum
+#include "phys.h"
+
+enum OBJFLAGS
 {
    OBJ_RESET    = 0,
    OBJ_NONE     = 1 << 0,
@@ -22,27 +20,28 @@ typedef struct gameobj gameobj;
 struct gameobj {
     float size;
 
-    point3f position;
-    point3f axis;
-    float angle;
+    point3f *axis;
+    point3f *position;          /*x,y,z spatial position */
+    point3f *velocity;          /*x,y,z velocity */
+    float acceleration;         /* scalar acceleration */
 
-    point3f velocity;
-    float angVelocity;
-    float acceleration;
+    float angle;                /* Angle of direcion xy */
+    float angVelocity;          /* Angle change velocity clockwise oriented */
 
-    bool active;
+    sphere3f *boundSphere;      /* Colision bounded sphere */
 
-    sphere3f boundSphere;
+    bool active;                /* Is this object active ? */
 
-    int type;
+    float lifeTimer;            /* Time before item being removed from world */
 
-    unsigned int objFlags;
+    int type;                   /* Object type */
+    unsigned int objFlags;      /* Object flags */
 
-    void (*draw)(void);
-    void (*update)(void);
-    void (*iscolliding)(void);
-    void (*docollision)(void);
-}
+    void (*draw)(void);         /* Pointer to the specialized object draw */
+    void (*update)(void);       /* Pointer to the specialized object update */
+    void (*iscolliding)(void);  /* Pointer to the function that check colision */
+    void (*docollision)(void);  /* Pointer to the function that executes colision */
+};
 
 gameobj* gameobj__init(void);
 void     gameobj__destroy(gameobj *self);

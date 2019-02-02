@@ -8,8 +8,9 @@
 #include <errno.h>
 #include <string.h>
 
-#include "game.h"
-#include "poly.h"
+#include "phys.h"
+#include "gameobj.h"
+#include "ship.h"
 
 #endif
 
