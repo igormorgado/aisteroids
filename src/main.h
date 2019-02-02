@@ -11,6 +11,7 @@
 #include "phys.h"
 #include "gameobj.h"
 #include "ship.h"
+#include "control.h"
 
 #endif
 
