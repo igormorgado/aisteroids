@@ -3,11 +3,11 @@
 
 #include "ship.h"
 
-Ship* ship__init(void)
+struct ship * ship__init(void)
 {
     // Is there any way to use gameobj__init() then just initialize
     // what is left ?
-    Ship* self;
+    struct ship * self;
     self = malloc(sizeof *self);
 
     self->size = 1.0;
@@ -40,7 +40,7 @@ Ship* ship__init(void)
     self->objFlags |= OBJ_NOTIMER;      // Controlled ship has no timer
 
     // struct ship only members
-    Control *control;
+    struct control * control;
     control = malloc(sizeof *control);
     self->control = control;
 
@@ -65,7 +65,7 @@ void ship__destroy(struct ship * self)
     free(self);
 }
 
-void ship__update(Ship* self, float dt)
+void ship__update(struct ship * self, float dt)
 {
     accelerate(self->velocity, self->acceleration, dt);
     move(self->position, self->velocity, dt);
@@ -83,45 +83,45 @@ void ship__update(Ship* self, float dt)
 }
 
 
-void ship__thrust_on(Ship* self)
+void ship__thrust_on(struct ship * self)
 {
     self->thrust = true;
     self->revThrust = false;
 }
 
-void ship__thrust_reverse(Ship* self)
+void ship__thrust_reverse(struct ship * self)
 {
     self->thrust = false;
     self->revThrust = true;
 }
 
-void ship__thrust_off(Ship* self)
+void ship__thrust_off(struct ship * self)
 {
     self->thrust = false;
     self->revThrust = false;
 }
 
-void ship__turn_left(Ship* self)
+void ship__turn_left(struct ship * self)
 {
     ;
 }
 
-void ship__turn_right(Ship* self)
+void ship__turn_right(struct ship * self)
 {
     ;
 }
 
-void ship__turn_stop(Ship* self)
+void ship__turn_stop(struct ship * self)
 {
     self->angVelocity = 0.0;
 }
 
-void ship__stop(Ship* self)
+void ship__stop(struct ship * self)
 {
     ;
 }
 
-void ship__hyperspace(Ship* self)
+void ship__hyperspace(struct ship * self)
 {
     ;
 }
