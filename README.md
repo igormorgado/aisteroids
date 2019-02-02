@@ -13,6 +13,8 @@ make
 # ERROR
 
 ```
+imp@ss:~/Projects/aisteroids ( 20.52 KB ) (git::master)
+$ make
 gcc -g -fms-extensions  -c -o obj/ship.o src/ship.c 
 In file included from src/ship.h:6,
                  from src/ship.c:4:
