@@ -10,16 +10,15 @@ enum CONTROLTYPE
     CONTROLTYPE_AI
 };
 
-typedef struct control Control;
 struct control 
 {
-    Ship * ship;
+    struct ship * ship;
     int type;
 };
 
-Control * control__init(Ship * ship, int type);
-void control__destroy(Control * self);
-void control__update(Control * self, float dt);
-void control__set_ship(Control * self, Ship * ship);
+struct control * control__init(struct ship * ship, int type);
+void control__destroy(struct control * self);
+void control__update(struct control * self, float dt);
+void control__set_ship(struct control * self, struct ship * ship);
 #endif
 

@@ -4,7 +4,7 @@
 
 int main(void)
 {
-    ship* xip = ship__init();
+    struct ship* xip = ship__init();
 
     xip->position->x = 1.1;
     xip->position->y = 2.1;

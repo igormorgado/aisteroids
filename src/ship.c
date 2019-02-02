@@ -39,7 +39,7 @@ Ship* ship__init(void)
     self->objFlags  = OBJ_RESET;        // Reset flags
     self->objFlags |= OBJ_NOTIMER;      // Controlled ship has no timer
 
-    // Ship only members
+    // struct ship only members
     Control *control;
     control = malloc(sizeof *control);
     self->control = control;
@@ -54,7 +54,7 @@ Ship* ship__init(void)
 }
 
 
-void ship__destroy(Ship * self)
+void ship__destroy(struct ship * self)
 {
     free(self->control);
     free(self->boundSphere);
@@ -126,46 +126,46 @@ void ship__hyperspace(Ship* self)
     ;
 }
 
-void ship__get_powerup(Ship * self, int powerup)
+void ship__get_powerup(struct ship * self, int powerup)
 {
     ;
 }
 
-int ship__get_shot_level(Ship * self) {
+int ship__get_shot_level(struct ship * self) {
     return self->shotPowerLevel;
 }
 
-int ship__get_num_bullets(Ship * self) {
+int ship__get_num_bullets(struct ship * self) {
     return self->activeBulletCount;
 }
 
-void ship__inc_num_bullets(Ship * self, int num)
+void ship__inc_num_bullets(struct ship * self, int num)
 {
     self->activeBulletCount += num;
 }
 
-void ship__make_incincible(Ship * self, float time)
+void ship__make_incincible(struct ship * self, float time)
 {
     self->invincibilityTimer += time;
 }
 
-int ship__max_bullet(Ship * self)
+int ship__max_bullet(struct ship * self)
 {
     ;
 }
 
-void ship__terminate_bullet(Ship * self)
+void ship__terminate_bullet(struct ship * self)
 {
     if(self->activeBulletCount > 0)
         self->activeBulletCount--;
 }
 
-void ship__shoot(Ship * self)
+void ship__shoot(struct ship * self)
 {
     ;
 }
 
-float ship__get_closest_gun_angle(Ship * self, float angle)
+float ship__get_closest_gun_angle(struct ship * self, float angle)
 {
     ;
 }

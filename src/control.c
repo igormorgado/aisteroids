@@ -3,9 +3,9 @@
 #include "control.h"
 #include "ship.h"
 
-Control * control__init(Ship *ship, int type)
+struct control * control__init(struct ship *ship, int type)
 {
-    Control* self;
+    struct control * self;
     self = malloc(sizeof *self);
     self->ship = ship;
     self->type = type;
@@ -14,17 +14,17 @@ Control * control__init(Ship *ship, int type)
 
 }
 
-void control__destroy(Control * self)
+void control__destroy(struct control * self)
 {
     free(self);
 }
 
-void control__update(Control *self, float dt)
+void control__update(struct control *self, float dt)
 {
 
 }
 
-void control__set_ship(Control * self, Ship * ship)
+void control__set_ship(struct control * self, struct ship * ship)
 {
     self->ship = ship;
 }
