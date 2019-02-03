@@ -17,8 +17,8 @@ struct control
 };
 
 struct control * control__init(struct ship * ship, int type);
-void control__destroy(struct control * self);
-void control__update(struct control * self, float dt);
-void control__set_ship(struct control * self, struct ship * ship);
+void             control__destroy(struct control * self);
+void             control__update(struct control * self, float dt);
+void             control__set_ship(struct control * self, struct ship * ship);
 #endif
 

@@ -2,8 +2,11 @@
 #include <stdlib.h>
 
 #include "ship.h"
+#include "phys.h"
+#include "debug.h"
 
-struct ship * ship__init(void)
+struct ship *
+ship__init(void)
 {
     // Is there any way to use gameobj__init() then just initialize
     // what is left ?
@@ -37,7 +40,7 @@ struct ship * ship__init(void)
     self->lifeTimer = 0;
     self->type = 0;
     self->objFlags  = OBJ_RESET;        // Reset flags
-    self->objFlags |= OBJ_NOTIMER;      // Controlled ship has no timer
+    // self->objFlags |= OBJ_NOTIMER;      // Controlled ship has no timer
 
     // struct ship only members
     struct control * control;
@@ -54,7 +57,8 @@ struct ship * ship__init(void)
 }
 
 
-void ship__destroy(struct ship * self)
+void
+ship__destroy(struct ship * self)
 {
     free(self->control);
     free(self->boundSphere);
@@ -65,13 +69,18 @@ void ship__destroy(struct ship * self)
     free(self);
 }
 
-void ship__update(struct ship * self, float dt)
+void
+ship__update(struct ship * self, float dt)
 {
+    debug_print("%s\n", ship__fmt(self));
     accelerate(self->velocity, self->acceleration, dt);
+    debug_print("%s\n", ship__fmt(self));
     move(self->position, self->velocity, dt);
+    debug_print("%s\n", ship__fmt(self));
     rotate(&(self->angle), self->angVelocity, dt);
-
+    debug_print("%s\n", ship__fmt(self));
     self->position->z = 0.0f;
+    debug_print("%s\n", ship__fmt(self));
 
     if((self->objFlags & OBJ_NOTIMER) == 0)
     {
@@ -83,90 +92,124 @@ void ship__update(struct ship * self, float dt)
 }
 
 
-void ship__thrust_on(struct ship * self)
+void
+ship__thrust_on(struct ship * self)
 {
     self->thrust = true;
     self->revThrust = false;
 }
 
-void ship__thrust_reverse(struct ship * self)
+void
+ship__thrust_reverse(struct ship * self)
 {
     self->thrust = false;
     self->revThrust = true;
 }
 
-void ship__thrust_off(struct ship * self)
+void
+ship__thrust_off(struct ship * self)
 {
     self->thrust = false;
     self->revThrust = false;
 }
 
-void ship__turn_left(struct ship * self)
+void
+ship__turn_left(struct ship * self)
 {
     ;
 }
 
-void ship__turn_right(struct ship * self)
+void
+ship__turn_right(struct ship * self)
 {
     ;
 }
 
-void ship__turn_stop(struct ship * self)
+void 
+ship__turn_stop(struct ship * self)
 {
     self->angVelocity = 0.0;
 }
 
-void ship__stop(struct ship * self)
+void 
+ship__stop(struct ship * self)
+{
+    self->velocity->x = 0.;
+    self->velocity->y = 0.;
+    self->velocity->z = 0.;
+    self->acceleration = 0.;
+}
+
+void 
+ship__hyperspace(struct ship * self)
 {
     ;
 }
 
-void ship__hyperspace(struct ship * self)
+void 
+ship__get_powerup(struct ship * self, int powerup)
 {
     ;
 }
 
-void ship__get_powerup(struct ship * self, int powerup)
-{
-    ;
-}
-
-int ship__get_shot_level(struct ship * self) {
+int 
+ship__get_shot_level(struct ship * self) {
     return self->shotPowerLevel;
 }
 
-int ship__get_num_bullets(struct ship * self) {
+int 
+ship__get_num_bullets(struct ship * self) {
     return self->activeBulletCount;
 }
 
-void ship__inc_num_bullets(struct ship * self, int num)
+void 
+ship__inc_num_bullets(struct ship * self, int num)
 {
     self->activeBulletCount += num;
 }
 
-void ship__make_incincible(struct ship * self, float time)
+void 
+ship__make_incincible(struct ship * self, float time)
 {
     self->invincibilityTimer += time;
 }
 
-int ship__max_bullet(struct ship * self)
+int 
+ship__max_bullet(struct ship * self)
 {
     ;
 }
 
-void ship__terminate_bullet(struct ship * self)
+void 
+ship__terminate_bullet(struct ship * self)
 {
     if(self->activeBulletCount > 0)
         self->activeBulletCount--;
 }
 
-void ship__shoot(struct ship * self)
+void 
+ship__shoot(struct ship * self)
 {
     ;
 }
 
-float ship__get_closest_gun_angle(struct ship * self, float angle)
+float 
+ship__get_closest_gun_angle(struct ship * self, float angle)
 {
     ;
 }
 
+char *
+ship__fmt(const struct ship * self)
+{
+    const size_t tsize = 100;
+    char * s;
+    s = malloc(tsize + 1);
+
+    snprintf(s, tsize, "P(%s), V(%s), A(%.2f), O(%.2f), T(%.2f)",
+            point3f_fmt(self->position),
+            point3f_fmt(self->velocity),
+            self->acceleration, self->angle, self->angVelocity);
+
+    return s;
+}
