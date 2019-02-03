@@ -1,6 +1,7 @@
 #ifndef __GAMEOBJ_H__
 #define __GAMEOBJ_H__
 
+#include <stdbool.h>
 #include "phys.h"
 
 enum OBJFLAGS

@@ -34,6 +34,7 @@ struct game {
     int screen_height;
     int space_size;
 
+    // Global states
     bool bonus_used;
     float respawn_timer;
     float powerup_timer;
@@ -44,9 +45,11 @@ struct game {
     int num_asteroids;
     bool ai_on;
 
+    // Game entities
     struct ship * ship;
     struct human_control * humanControl;
     struct ai_control * aiControl;
+    // MISSING A LIST OF GAMEOBJECTS
 };
 
 

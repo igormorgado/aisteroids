@@ -2,6 +2,7 @@
 
 #include "main.h"
 #include "debug.h"
+#include "linked_list.h"
 
 int
 main(void)
@@ -26,6 +27,25 @@ main(void)
     debug_print("%s\n", "Stop thursters and acceleration");
     ship__stop(xip);
     ship__update(xip, dt);
+
+
+    gameobjlist * mylist = gameobjlist__init();
+    gameobj * o1 = gameobj__init();
+    gameobj * o2 = gameobj__init();
+    gameobj * o3 = gameobj__init();
+
+    printf("My list size is: %d\n", mylist->size);
+    gameobjlist__add(mylist, o1);
+    printf("My list size is: %d\n", mylist->size);
+    gameobjlist__add(mylist, o2);
+    printf("My list size is: %d\n", mylist->size);
+    gameobjlist__add(mylist, o3);
+    printf("My list size is: %d\n", mylist->size);
+
+    gameobjlist__print(mylist);
+    
+
+    
 
     return 0;
 }

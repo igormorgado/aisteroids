@@ -40,7 +40,7 @@ ship__init(void)
     self->lifeTimer = 0;
     self->type = 0;
     self->objFlags  = OBJ_RESET;        // Reset flags
-    // self->objFlags |= OBJ_NOTIMER;      // Controlled ship has no timer
+    self->objFlags |= OBJ_SHIP;      // Controlled ship has no timer
 
     // struct ship only members
     struct control * control;
