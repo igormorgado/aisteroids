@@ -44,7 +44,10 @@ main(void)
 
     gameobjlist__print(mylist);
     
+    gameobjlist__add(mylist, (gameobj *)xip);
 
+    printf("\n");
+    gameobjlist__print(mylist);
     
 
     return 0;

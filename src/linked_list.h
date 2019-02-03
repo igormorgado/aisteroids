@@ -5,11 +5,8 @@
 
 typedef struct gameobjnode gameobjnode;
 struct gameobjnode {
-    int           key;
-    union {
-        struct gameobj * gobj;
-        struct ship    * ship;
-    } obj;
+    int              key;
+    struct gameobj * obj;
     gameobjnode * prev;
     gameobjnode * next;
 };
