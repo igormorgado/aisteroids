@@ -46,10 +46,10 @@ char *
 point3f_fmt(const point3f * vector)
 {
     char * s;
-    const size_t nsize = 3;     // Number of elements in vector
-    const size_t vsize = 5;     // Vector total size
-    const size_t fsize = 2;     // Float precision size
-    const size_t tsize = (nsize * (vsize + fsize + 1)) + (2 * (nsize - 1));
+    const int nsize = 3;     // Number of elements in vector
+    const int vsize = 5;     // Vector total size
+    const int fsize = 2;     // Float precision size
+    const int tsize = (nsize * (vsize + fsize + 1)) + (2 * (nsize - 1));
 
     s = malloc(tsize + 1);
     snprintf(s, tsize, "%*.*f, %*.*f, %*.*f", 

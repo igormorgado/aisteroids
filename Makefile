@@ -6,7 +6,7 @@ BIN := aisteroids
 COMPILE_OPTS = -DDEBUG
 
 CC = gcc
-CFLAGS=-g -fms-extensions 
+CFLAGS=-g  -ggdb -std=c11 -fms-extensions  -Wall -Wpedantic
 LDFLAGS=-lm
 
 $(BIN): $(OBJ_FILES)

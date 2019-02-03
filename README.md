@@ -12,31 +12,7 @@ make
 
 # ERROR
 
-```
-$ make
-gcc -g -fms-extensions  -DDEBUG -c -o obj/gameobj.o src/gameobj.c
-gcc -g -fms-extensions  -DDEBUG -c -o obj/linked_list.o src/linked_list.c
-src/linked_list.c: In function ‘gameobjlist__add’:
-src/linked_list.c:27:15: error: incompatible types when assigning to type ‘union <anonymous>’ from type ‘gameobj *’ {aka ‘struct gameobj *’}
-     node->obj = obj;
-               ^
-src/linked_list.c: In function ‘gameobjlist__print’:
-src/linked_list.c:56:26: error: invalid type argument of ‘->’ (have ‘union <anonymous>’)
-                 node->obj->type,
-                          ^~
-src/linked_list.c:57:26: error: invalid type argument of ‘->’ (have ‘union <anonymous>’)
-                 node->obj->objFlags,
-                          ^~
-src/linked_list.c:58:26: error: invalid type argument of ‘->’ (have ‘union <anonymous>’)
-                 node->obj->active ? "true":"false",
-                          ^~
-src/linked_list.c:59:38: error: invalid type argument of ‘->’ (have ‘union <anonymous>’)
-                 point3f_fmt(node->obj->position)
-                                      ^~
-make: *** [Makefile:16: obj/linked_list.o] Error 1
-```
-
-How to make the union work?
+No errors reported. :-)
 
 
 # Coding conventions

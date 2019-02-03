@@ -34,13 +34,13 @@ main(void)
     gameobj * o2 = gameobj__init();
     gameobj * o3 = gameobj__init();
 
-    printf("My list size is: %d\n", mylist->size);
+    printf("My list size is: %zu\n", mylist->size);
     gameobjlist__add(mylist, o1);
-    printf("My list size is: %d\n", mylist->size);
+    printf("My list size is: %zu\n", mylist->size);
     gameobjlist__add(mylist, o2);
-    printf("My list size is: %d\n", mylist->size);
+    printf("My list size is: %zu\n", mylist->size);
     gameobjlist__add(mylist, o3);
-    printf("My list size is: %d\n", mylist->size);
+    printf("My list size is: %zu\n", mylist->size);
 
     gameobjlist__print(mylist);
     

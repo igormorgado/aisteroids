@@ -177,7 +177,7 @@ ship__make_incincible(struct ship * self, float time)
 int 
 ship__max_bullet(struct ship * self)
 {
-    ;
+    return 0;
 }
 
 void 
@@ -196,7 +196,7 @@ ship__shoot(struct ship * self)
 float 
 ship__get_closest_gun_angle(struct ship * self, float angle)
 {
-    ;
+    return 0;
 }
 
 char *

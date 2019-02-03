@@ -1,0 +1,27 @@
+no. the polymorphism part comes from the fact that the first member is compatible with the struct from a pointer and memory perspective.
+struct Subtype { struct Basetype super; int x; };
+
+http://troydhanson.github.io/uthash/userguide.html#_iterating_and_sorting
+
+that is, struct ship a; struct gameobj * b = (struct gameobj)&a;
+explicit cast will be necessary, yes.
+oh and its (struct gameobj *) sry
+
+using proper member I would need to refer as ship->obj->members for the inherited members and ship->members for the ones that are exclusive to the struct ship correct?
+
+ship->obj.member
+or cast it ((struct Basetype *)&subtype)->member
+
+personally i would forfeit the "convenience" of member access through that extension  in favour of clarity.
+
+
+struct foo {
+    enum footype {
+        FOO_T_INTP,
+        FOO_T_FLOATP
+    } type;
+    union {
+        int *i;
+        float *f;
+    } data;
+};
