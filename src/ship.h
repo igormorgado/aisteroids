@@ -46,6 +46,9 @@ void            ship__terminate_bullet(struct ship * self);
 void            ship__shoot(struct ship * self);
 float           ship__get_closest_gun_angle(struct ship * self, float angle);
 
+// Physics
+void            ship__explode(struct ship * self);
+void            ship__do_collision(struct ship * self, struct gameobj * ob);
 
 // Formatting functions
 char *          ship__fmt(const struct ship * self);
