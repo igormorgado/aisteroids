@@ -34,14 +34,16 @@ struct quadrado
     int (*altura)(void);
 };
 
-float inline distancia(struct ponto p1, struct ponto p2)
+inline float distancia(struct ponto p1, struct ponto p2);
+       
+float distancia(struct ponto p1, struct ponto p2)
 {
     return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 }
 
-int perimetro(void)
+int perimetro(struct)
 {
-    return 0;
+    for (int i = 0; i <  
 }
 
 int main(void)
@@ -49,11 +51,12 @@ int main(void)
     POL p1;
     
     p1.lados = 3;
-    p1.vertice[0] = { 0, 0 }
-    p1.vertice[1] = { 1, 0 }
-    p1.vertice[2] = {.5, 1 }
+    p1.vertice[0] = (P){ .x = 0, .y = 0 };
+    p1.vertice[1].x = 1;
+    p1.vertice[1].y = 0;
+    p1.vertice[2] = (P){ .5, 1 };
 
-    printf("D %.2f\n", distancia(p1.vertice[0], p2.vertice[0]));
+    printf("D %.2f\n", distancia(p1.vertice[1], p1.vertice[2]));
 
     return 0;
 }

@@ -23,25 +23,25 @@ struct gameobj {
     point3f * axis;
     point3f * position;          /*x,y,z spatial position */
     point3f * velocity;          /*x,y,z velocity */
-    float acceleration;         /* scalar acceleration */
+    float acceleration;          /* scalar acceleration */
 
-    float angle;                /* Angle of direcion xy */
+    float angle;                 /* Angle of direcion xy */
     float ang_velocity;          /* Angle change velocity clockwise oriented */
 
-    sphere3f * bound_sphere;      /* Colision bounded sphere */
+    sphere3f * bound_sphere;     /* Colision bounded sphere */
 
-    bool active;                /* Is this object active ? */
+    bool active;                 /* Is this object active ? */
 
     float life_timer;            /* Time before item being removed from world */
 
-    int type;                   /* Object type */
+    int type;                    /* Object type */
     unsigned int obj_flags;      /* Object flags */
 
-    void (*draw)(void);         /* Pointer to the specialized object draw */
-    void (*update)(void);       /* Pointer to the specialized object update */
+    void (*draw)(void);          /* Pointer to the specialized object draw */
+    void (*update)(void);        /* Pointer to the specialized object update */
     void (*is_colliding)(void);  /* Pointer to the function that check colision */
     void (*do_collision)(struct gameobj * self);  /* Pointer to the function that executes colision */
-    void (*explode)(void);      /* Pointer to the function that executes explosion */
+    void (*explode)(void);       /* Pointer to the function that executes explosion */
 };
 
 struct gameobj * gameobj__init(void);
