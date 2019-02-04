@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "gameobj.h"
-#include "linked_list.h"
+#include "gameobjlist.h"
 
 
 gameobjlist *
@@ -17,7 +17,7 @@ gameobjlist__init(void)
 }
 
 void
-gameobjlist__add(gameobjlist *self, gameobj *obj)
+gameobjlist__add(gameobjlist *self, struct gameobj *obj)
 {
     // Create a new node
     gameobjnode * node;
@@ -54,7 +54,7 @@ gameobjlist__print(gameobjlist *self)
         printf("[%d] - Type: %d - Flags: %d -  Active: %s - Pos (%s)\n",
                 node->key,
                 node->obj->type,
-                node->obj->objFlags,
+                node->obj->obj_flags,
                 node->obj->active ? "true":"false",
                 point3f_fmt(node->obj->position)
         );

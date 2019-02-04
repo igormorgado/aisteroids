@@ -30,28 +30,28 @@ ship__init(void)
     self->acceleration = 0.0;
 
     self->angle = 0.0;
-    self->angVelocity = 0.0;
+    self->ang_velocity = 0.0;
 
-    sphere3f* boundSphere;
-    boundSphere = malloc(sizeof *boundSphere);
-    self->boundSphere = boundSphere;
+    sphere3f* bound_sphere;
+    bound_sphere = malloc(sizeof *bound_sphere);
+    self->bound_sphere = bound_sphere;
 
     self->active = false;
-    self->lifeTimer = 0;
+    self->life_timer = 0;
     self->type = 0;
-    self->objFlags  = OBJ_RESET;        // Reset flags
-    self->objFlags |= OBJ_SHIP;      // Controlled ship has no timer
+    self->obj_flags  = OBJ_RESET;        // Reset flags
+    self->obj_flags |= OBJ_SHIP;      // Controlled ship has no timer
 
     // struct ship only members
     struct control * control;
     control = malloc(sizeof *control);
     self->control = control;
 
-    self->activeBulletCount = 0;
+    self->active_bullet_count = 0;
     self->thrust = false;
-    self->revThrust = false;
-    self->shotPowerLevel = 0;
-    self->invincibilityTimer = 0;
+    self->rev_thrust = false;
+    self->shot_power_level = 0;
+    self->invincibility_timer = 0;
    
     return self;
 }
@@ -61,7 +61,7 @@ void
 ship__destroy(struct ship * self)
 {
     free(self->control);
-    free(self->boundSphere);
+    free(self->bound_sphere);
     free(self->velocity);
     free(self->axis);
     free(self->position);
@@ -77,15 +77,15 @@ ship__update(struct ship * self, float dt)
     debug_print("%s\n", ship__fmt(self));
     move(self->position, self->velocity, dt);
     debug_print("%s\n", ship__fmt(self));
-    rotate(&(self->angle), self->angVelocity, dt);
+    rotate(&(self->angle), self->ang_velocity, dt);
     debug_print("%s\n", ship__fmt(self));
     self->position->z = 0.0f;
     debug_print("%s\n", ship__fmt(self));
 
-    if((self->objFlags & OBJ_NOTIMER) == 0)
+    if((self->obj_flags & OBJ_NOTIMER) == 0)
     {
-        self->lifeTimer -= dt;
-        if(self->lifeTimer < 0.0f) {
+        self->life_timer -= dt;
+        if(self->life_timer < 0.0f) {
             self->active = false;
         }
     }
@@ -96,21 +96,21 @@ void
 ship__thrust_on(struct ship * self)
 {
     self->thrust = true;
-    self->revThrust = false;
+    self->rev_thrust = false;
 }
 
 void
 ship__thrust_reverse(struct ship * self)
 {
     self->thrust = false;
-    self->revThrust = true;
+    self->rev_thrust = true;
 }
 
 void
 ship__thrust_off(struct ship * self)
 {
     self->thrust = false;
-    self->revThrust = false;
+    self->rev_thrust = false;
 }
 
 void
@@ -128,7 +128,7 @@ ship__turn_right(struct ship * self)
 void 
 ship__turn_stop(struct ship * self)
 {
-    self->angVelocity = 0.0;
+    self->ang_velocity = 0.0;
 }
 
 void 
@@ -154,24 +154,24 @@ ship__get_powerup(struct ship * self, int powerup)
 
 int 
 ship__get_shot_level(struct ship * self) {
-    return self->shotPowerLevel;
+    return self->shot_power_level;
 }
 
 int 
 ship__get_num_bullets(struct ship * self) {
-    return self->activeBulletCount;
+    return self->active_bullet_count;
 }
 
 void 
 ship__inc_num_bullets(struct ship * self, int num)
 {
-    self->activeBulletCount += num;
+    self->active_bullet_count += num;
 }
 
 void 
 ship__make_incincible(struct ship * self, float time)
 {
-    self->invincibilityTimer += time;
+    self->invincibility_timer += time;
 }
 
 int 
@@ -183,8 +183,8 @@ ship__max_bullet(struct ship * self)
 void 
 ship__terminate_bullet(struct ship * self)
 {
-    if(self->activeBulletCount > 0)
-        self->activeBulletCount--;
+    if(self->active_bullet_count > 0)
+        self->active_bullet_count--;
 }
 
 void 
@@ -209,7 +209,7 @@ ship__fmt(const struct ship * self)
     snprintf(s, tsize, "P(%s), V(%s), A(%.2f), O(%.2f), T(%.2f)",
             point3f_fmt(self->position),
             point3f_fmt(self->velocity),
-            self->acceleration, self->angle, self->angVelocity);
+            self->acceleration, self->angle, self->ang_velocity);
 
     return s;
 }

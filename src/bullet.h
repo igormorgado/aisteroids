@@ -7,7 +7,8 @@
 
 struct bullet {
     struct gameobj;
-}
+    bool player_bullet;
+};
 
 // Memory management
 struct bullet *     bullet__init(void);

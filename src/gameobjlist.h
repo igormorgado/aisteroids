@@ -19,13 +19,13 @@ struct gameobjlist {
 
 gameobjlist * gameobjlist__init(void);
 void          gameobjlist__destroy(gameobjlist *self);
-void          gameobjlist__add(gameobjlist *self, gameobj *obj);
+void          gameobjlist__add(gameobjlist *self, struct gameobj *obj);
 
 // void          gameobjlist__remove(gameobjlist *self, gameobjnode *node);
 // void          gameobjlist__remove_by_key(gameobjlist *self, int key);
 // void          gameobjlist__remove_by_pos(gameobjlist *self, int pos);
-// gameobj     * gameobjlist__next_by_type(gameobjlist *self, int type);
-// gameobj     * gameobjlist__next_flag(gameobjlist *self, unsigned int objFlag);
+//struct  gameobj     * gameobjlist__next_by_type(gameobjlist *self, int type);
+//struct  gameobj     * gameobjlist__next_flag(gameobjlist *self, unsigned int objFlag);
 
 void          gameobjlist__print(gameobjlist *self);
 #endif

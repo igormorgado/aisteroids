@@ -8,10 +8,12 @@
 #include <errno.h>
 #include <string.h>
 
-#include "phys.h"
-#include "gameobj.h"
-#include "ship.h"
 #include "control.h"
+#include "debug.h"
+#include "gameobj.h"
+#include "gameobjlist.h"
+#include "phys.h"
+#include "ship.h"
 
 #endif
 

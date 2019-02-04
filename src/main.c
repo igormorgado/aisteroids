@@ -1,8 +1,4 @@
-#include <stdio.h>
-
 #include "main.h"
-#include "debug.h"
-#include "linked_list.h"
 
 int
 main(void)
@@ -18,7 +14,7 @@ main(void)
     debug_print("%s\n", "Accelerates");
     xip->acceleration = 2.1; 
     debug_print("%s\n", "Rotates");
-    xip->angVelocity = 3;
+    xip->ang_velocity = 3;
 
     ship__update(xip, dt);
     debug_print("%s\n", "Stop turn thursters");
@@ -30,9 +26,9 @@ main(void)
 
 
     gameobjlist * mylist = gameobjlist__init();
-    gameobj * o1 = gameobj__init();
-    gameobj * o2 = gameobj__init();
-    gameobj * o3 = gameobj__init();
+    struct gameobj * o1 = gameobj__init();
+    struct gameobj * o2 = gameobj__init();
+    struct gameobj * o3 = gameobj__init();
 
     printf("My list size is: %zu\n", mylist->size);
     gameobjlist__add(mylist, o1);
@@ -44,7 +40,7 @@ main(void)
 
     gameobjlist__print(mylist);
     
-    gameobjlist__add(mylist, (gameobj *)xip);
+    gameobjlist__add(mylist, (struct gameobj *)xip);
 
     printf("\n");
     gameobjlist__print(mylist);

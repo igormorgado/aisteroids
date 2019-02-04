@@ -9,11 +9,11 @@ struct ship {
     struct gameobj;
 
     struct control * control;
-    int activeBulletCount;
+    int active_bullet_count;
     bool thrust;
-    bool revThrust;
-    int shotPowerLevel;
-    float invincibilityTimer;
+    bool rev_thrust;
+    int shot_power_level;
+    float invincibility_timer;
 };
 
 // Memory management

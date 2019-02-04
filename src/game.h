@@ -4,6 +4,9 @@
 #include <stdbool.h>
 
 #include "phys.h"
+#include "gameobjlist.h"
+
+#define ASTEROID_SCORE_VAL  150
 
 enum CONTROL
 {
@@ -47,9 +50,10 @@ struct game {
 
     // Game entities
     struct ship * ship;
-    struct human_control * humanControl;
-    struct ai_control * aiControl;
-    // MISSING A LIST OF GAMEOBJECTS
+    struct human_control * human_control;
+    struct ai_control * ai_control;
+
+    gameobjlist * active_obj;
 };
 
 

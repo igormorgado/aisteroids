@@ -5,10 +5,10 @@
 #include "phys.h"
 
 
-gameobj *
+struct gameobj *
 gameobj__init(void)
 {
-    gameobj * self;
+    struct gameobj * self;
     self = malloc(sizeof *self);
 
     self->size = 1.0;
@@ -28,25 +28,25 @@ gameobj__init(void)
     self->acceleration = 0.0;
 
     self->angle = 0.0;
-    self->angVelocity = 0.0;
+    self->ang_velocity = 0.0;
 
-    sphere3f * boundSphere;
-    boundSphere = malloc(sizeof *boundSphere);
-    self->boundSphere = boundSphere;
+    sphere3f * bound_sphere;
+    bound_sphere = malloc(sizeof *bound_sphere);
+    self->bound_sphere = bound_sphere;
 
     self->active = false;
-    self->lifeTimer = 0;
+    self->life_timer = 0;
     self->type = 0;
-    self->objFlags = OBJ_RESET;
+    self->obj_flags = OBJ_RESET;
 
     return self;
 }
 
 
 void 
-gameobj__destroy(gameobj * self)
+gameobj__destroy(struct gameobj * self)
 {
-    free(self->boundSphere);
+    free(self->bound_sphere);
     free(self->velocity);
     free(self->position);
     free(self->axis);
@@ -55,18 +55,18 @@ gameobj__destroy(gameobj * self)
 
 
 void
-gameobj__update(gameobj * self, float dt)
+gameobj__update(struct gameobj * self, float dt)
 {
     accelerate(self->velocity, self->acceleration, dt);
     move(self->position, self->velocity, dt);
-    rotate(&(self->angle), self->angVelocity, dt);
+    rotate(&(self->angle), self->ang_velocity, dt);
 
     self->position->z = 0.0f;
 
-    if((self->objFlags & OBJ_NOTIMER) == 0)
+    if((self->obj_flags & OBJ_NOTIMER) == 0)
     {
-        self->lifeTimer -= dt;
-        if(self->lifeTimer < 0.0f) {
+        self->life_timer -= dt;
+        if(self->life_timer < 0.0f) {
             self->active = false;
         }
     }
@@ -74,7 +74,7 @@ gameobj__update(gameobj * self, float dt)
 
 
 point3f *
-gameobj__unit_vector_facing(gameobj * self)
+gameobj__unit_vector_facing(struct gameobj * self)
 {
     //Returns the direction unit vector
     return NULL;
@@ -82,7 +82,7 @@ gameobj__unit_vector_facing(gameobj * self)
 
 
 point3f *
-gameobj__unit_vector_velocity(gameobj * self)
+gameobj__unit_vector_velocity(struct gameobj * self)
 {
     //Returns the velocity unit vector
     return NULL;
