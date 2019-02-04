@@ -1,6 +1,7 @@
 #ifndef __LINKED_LIST_H__
 #define __LINKED_LIST_H__
 
+#include <sys/types.h>
 #include "gameobj.h"
 
 typedef struct gameobjnode gameobjnode;

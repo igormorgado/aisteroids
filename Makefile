@@ -10,7 +10,7 @@ CFLAGS=-g  -ggdb -std=c11 -fms-extensions  -Wall -Wpedantic
 LDFLAGS=-lm
 
 $(BIN): $(OBJ_FILES)
-	$(CC) $(LDFLAGS) -o $@ $^ 
+	$(CC) -o $@ $^ $(LDFLAGS) 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(COMPILE_OPTS) -c -o $@ $< 
