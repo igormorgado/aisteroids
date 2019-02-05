@@ -122,12 +122,17 @@ void polygon_action(struct polygon *poly)
 
 bool all_sides_are_congruent(struct polygon *p)
 {
-    float t;
-    float s = distance(p->vertex[p->sides - 1], p->vertex[0]);
-    for(int i = 0; i< p->sides; i++)
+    int i = 0;
+    float t = 0.;
+    float s = 0.;
+    s = distance(p->vertex[p->sides - 1], p->vertex[0]);
+    for(i = 0; i< p->sides - 1; i++)
     {
         t = distance(p->vertex[i], p->vertex[i+1]);
-        if(s != t) return false;
+        if(s != t)
+        {
+            return false;
+        }
     }
     return true;
 }
@@ -294,6 +299,7 @@ float           square_area(struct square *s);
 float           square_perimeter(struct square *s);
 void            square_action(struct square *s, int num);
 float           square_height(struct square *s);
+bool            square_check(struct square *s);
 
 bool            square_check_by_side(struct square *s);
 float           height_from_side(struct square *s);
@@ -341,7 +347,14 @@ float square_height(struct square * s)
 
 bool square_check_by_side(struct square *s)
 {
-    return (bool)((s->polygon.sides == 4) && all_sides_are_congruent((struct polygon *) s));
+    if ((s->polygon.sides == 4) && all_sides_are_congruent(&(s->polygon)))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 float height_from_side(struct square *s)
@@ -405,9 +418,11 @@ int main(void)
     printf("Perimeter of S1 %.2f\n", square_perimeter(s1));
     printf("Area of S1 %.2f\n", square_area(s1));
     printf("Height of S1 %.2f\n", square_height(s1));
-    printf("Is S1 a square? %s\n", square_check(s1) ? "true":"false");
+    // Why conditional jump here?
+    printf("Is S1 a square? %s\n", (square_check(s1) ? "true":"false"));
     printf("Square action\n");
     square_action(s1, 5);
+    square_destroy(s1);
 
 
     return 0;
