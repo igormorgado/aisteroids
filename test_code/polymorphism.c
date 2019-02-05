@@ -123,14 +123,11 @@ void polygon_action(struct polygon *poly)
 bool all_sides_are_congruent(struct polygon *p)
 {
     float t;
-    printf("Sides of poly: %d\n", p->sides);
-    float s = distance(p->vertex[p->sides], p->vertex[0]);
-    printf("Side of first %f\n", s);
+    float s = distance(p->vertex[p->sides - 1], p->vertex[0]);
     for(int i = 0; i< p->sides; i++)
     {
         t = distance(p->vertex[i], p->vertex[i+1]);
-        printf("%f\n", t);
-        if( s != t) return false;
+        if(s != t) return false;
     }
     return true;
 }
