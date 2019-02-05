@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int change(int *a)
+void change(int *a)
 {
     *a += 10;
 }

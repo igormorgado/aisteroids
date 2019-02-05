@@ -2,61 +2,77 @@
 #include <stdlib.h>
 #include <math.h>
 
+struct point { float x; float y; };
 
-
-typedef struct ponto P;
-struct ponto {
-    float x;
-    float y;
-};
-
-typedef struct poligono POL;
-struct poligono
+struct poligon
 {
-    int lados;
-    struct ponto vertice[20];
-    int (*area)(void);
-    int (*perimetro)(void);
-    int (*acao)(void);
+    int sides;
+    struct point vertex[20];                // No more than 20 sided polygon
+    float (*area)(struct poligon p);
+    float (*perimeter)(struct poligon p);
+    void (*action)(void);
 };
 
-typedef struct triangulo TRI;
-struct triangulo
+
+struct triangle { struct poligon; float (*height)(void);
+};
+
+
+struct square
 {
-    struct poligono;
-    int (*altura)(void);
+    struct poligon;
+    float (*height)(void);
 };
 
-typedef struct quadrado QUA;
-struct quadrado
-{
-    struct poligono;
-    int (*altura)(void);
-};
 
-inline float distancia(struct ponto p1, struct ponto p2);
+inline float distance(struct point p1, struct point p2);
        
-float distancia(struct ponto p1, struct ponto p2)
+float distance(struct point p1, struct point p2)
 {
     return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 }
 
-int perimetro(struct)
+float perimeter(struct poligon P)
 {
-    for (int i = 0; i <  
+    int i;
+    float p = 0;
+
+    for (i = 0; i < P.sides - 1; i++)
+    {    
+        p += distance(P.vertex[i], P.vertex[i+1]);
+    }
+    p += distance(P.vertex[i], P.vertex[0]);
+
+    return p;
 }
 
 int main(void)
 {
-    POL p1;
+    struct poligon p1;
     
-    p1.lados = 3;
-    p1.vertice[0] = (P){ .x = 0, .y = 0 };
-    p1.vertice[1].x = 1;
-    p1.vertice[1].y = 0;
-    p1.vertice[2] = (P){ .5, 1 };
+    p1.sides = 3;
+    //
+    // Three different ways to assign values to a struct
+    p1.vertex[0] = (struct point){ .x = 0, .y = 0 };
+    p1.vertex[1] = (struct point){ .5, 1 };
+    p1.vertex[2].x = 1;
+    p1.vertex[2].y = 0;
 
-    printf("D %.2f\n", distancia(p1.vertice[1], p1.vertice[2]));
+    p1.perimeter = &perimeter;
+
+    printf("P1 %.2f\n", p1.perimeter(p1));
+
+
+    struct poligon *p2;
+    p2 = malloc(sizeof *p2);
+    p2->sides = 3;
+    // Is there any way to assign all three vertex at same time?
+    p2->vertex = (struct point) { (struct point){ 0, 0 },
+                                  (struct point){.5, 1 },
+                                  (struct point){ 1, 0 }
+    };
+    p2->perimeter = &perimeter;
+    printf("P2 %.2f\n", p2->perimeter(*p2));
 
     return 0;
 }
