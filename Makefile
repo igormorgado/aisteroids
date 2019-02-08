@@ -6,8 +6,8 @@ BIN := aisteroids
 COMPILE_OPTS = -DDEBUG
 
 CC = gcc
-CFLAGS=-g  -ggdb -std=c11 -fms-extensions  -Wall -Wpedantic
-LDFLAGS=-lm
+CFLAGS=-g  -ggdb -std=c11 -fms-extensions  -Wall -Wpedantic `pkg-config --cflags sdl2 SDL2_image`
+LDFLAGS=-lm `pkg-config --libs sdl2 SDL2_image`
 
 $(BIN): $(OBJ_FILES)
 	$(CC) -o $@ $^ $(LDFLAGS) 

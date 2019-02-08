@@ -3,39 +3,39 @@
 #include "bullet.h"
 
 struct bullet *
-bullet__init(void)
+bullet__init(struct bullet_params params)
 {
     struct bullet * self;
     self = malloc(sizeof *self);
 
-    self->size = 1.0;
+    self->size = params.size;
 
-    point3f * axis;
+    point3f_st * axis;
     axis = malloc(sizeof *axis);
     self->axis = axis;
 
-    point3f * position;
+    point3f_st * position;
     position = malloc(sizeof *position);
     self->position = position;
 
-    point3f * velocity;
+    point3f_st * velocity;
     velocity = malloc(sizeof *velocity);
     self->velocity = velocity;
 
-    self->acceleration = 0.0;
+    self->acceleration = params.acceleration;
 
-    self->angle = 0.0;
-    self->ang_velocity = 0.0;
+    self->angle = params.angle;
+    self->ang_velocity = params.ang_velocity;
 
-    sphere3f * bound_sphere;
+    sphere3f_st * bound_sphere;
     bound_sphere = malloc(sizeof *bound_sphere);
     self->bound_sphere = bound_sphere;
 
-    self->active = false;
-    self->life_timer = 0;
-    self->type = 0;
+    self->active = params.active;
+    self->life_timer = params.life_timer;
+    self->type = params.type;
     self->obj_flags  = OBJ_RESET;
-    self->obj_flags |= OBJ_BULLET;
+    self->obj_flags |= params.obj_flags;
 
     return self;
 }

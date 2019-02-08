@@ -4,12 +4,12 @@
 #include "ship.h"
 
 struct human_control *
-human_control__init(struct ship *ship, int type)
+human_control__init(struct human_control_params params)
 {
     struct human_control * self;
     self = malloc(sizeof *self);
-    self->ship = ship;
-    self->type = type;
+    self->ship = params.ship;
+    self->type = params.type;
 
     return self;
 

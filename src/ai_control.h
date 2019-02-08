@@ -2,15 +2,23 @@
 #define __AI_CONTROL_H__
 
 #include "control.h"
+#include "ship.h"
 
+typedef struct ai_control_params ai_control_params_st;
+struct ai_control_params
+{
+    struct ship * ship;
+    int type;
+};
+
+typedef struct ai_control ai_control_st;
 struct ai_control 
 {
     struct control;
-    int placeholder;
 };
 
-struct ai_control * ai_control__init    (struct ship * ship, int type);
-void                ai_control__destroy (struct ai_control * self);
+struct ai_control * ai_control__init    (struct ai_control_params params);
+void                ai_control__free    (struct ai_control * self);
 void                ai_control__update  (struct ai_control * self, float dt);
 void                ai_control__set_ship(struct ai_control * self, struct ship * ship);
 #endif

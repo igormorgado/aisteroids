@@ -4,10 +4,10 @@
 #include "gameobjlist.h"
 
 
-gameobjlist *
+gameobjlist_st *
 gameobjlist__init(void)
 {
-    gameobjlist *list;
+    gameobjlist_st *list;
     list = malloc(sizeof *list);
 
     list->size = 0;
@@ -17,10 +17,10 @@ gameobjlist__init(void)
 }
 
 void
-gameobjlist__add(gameobjlist *self, struct gameobj *obj)
+gameobjlist__add(gameobjlist_st *self, struct gameobj *obj)
 {
     // Create a new node
-    gameobjnode * node;
+    gameobjnode_st * node;
     node = malloc(sizeof *node);
 
     // Associate the object to the new node
@@ -45,9 +45,9 @@ gameobjlist__add(gameobjlist *self, struct gameobj *obj)
 }
 
 void
-gameobjlist__print(gameobjlist *self)
+gameobjlist__print(gameobjlist_st *self)
 {
-    gameobjnode *node;
+    gameobjnode_st *node;
     node = self->head;
     while(node)
     {
@@ -61,4 +61,21 @@ gameobjlist__print(gameobjlist *self)
 
         node = node->next;
     }
+}
+
+void
+gameobjlist__free(gameobjlist_st *self)
+{
+    gameobjnode_st *node;
+    gameobjnode_st *next;
+    node = self->head;
+    while(node)
+    {
+        next = node->next;
+        free(node);
+        node = next;
+    }
+    free(self);
+
+
 }

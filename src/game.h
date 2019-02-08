@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+#include "sdl.h"
 #include "phys.h"
 #include "gameobjlist.h"
 
@@ -31,10 +32,16 @@ enum GAMESTATE
     STATE_GAMEOVER
 };
 
-struct game {
-    // Rendering options
-    int screen_width;
-    int screen_height;
+typedef struct game_params game_params_st;
+struct game_params
+{
+    int num_lives;
+};
+
+typedef struct game game_st;
+struct game 
+{
+    struct sdl_connector *sdlconn;
     int space_size;
 
     // Global states
@@ -53,26 +60,30 @@ struct game {
     struct human_control * human_control;
     struct ai_control * ai_control;
 
-    gameobjlist * active_obj;
+    gameobjlist_st * active_obj;
 };
 
 
+struct game * game__init(struct game_params params);
+void          game__free(struct game * self);
 
-void    game__update(struct game * self, float dt);
-void    game__draw(struct game * self);
-void    game__draw_lives(struct game * self);
-void    game__clip(struct game * self, point3f * p);
-void    game__use_control(struct game *self, int control);
+void          game__update(struct game * self, float dt);
+void          game__draw(struct game * self);
+void          game__draw_lives(struct game * self);
+void          game__clip(struct game * self, point3f_st * p);
+void          game__use_control(struct game *self, int control);
+void          game__blit(struct game *self);
+void          game__wait(struct game *self, int wait);
 
-void    game__increment_score(struct game * self, int value); 
-void    game__reset_score(struct game * self);
+void          game__increment_score(struct game * self, int value); 
+void          game__reset_score(struct game * self);
 
-void    game__start(struct game * self);
-void    game__start_next_wave(struct game * self);
-void    game__launch_asteroid_wave(struct game * self);
-void    game__wave_over(struct game * self);
-void    game__over(struct game * self);
-void    game__kill_ship(struct game * self, struct ship * ship);
+void          game__start(struct game * self);
+void          game__start_next_wave(struct game * self);
+void          game__launch_asteroid_wave(struct game * self);
+void          game__wave_over(struct game * self);
+void          game__over(struct game * self);
+void          game__kill_ship(struct game * self, struct ship * ship);
 
 
 

@@ -6,39 +6,37 @@
 #include "debug.h"
 
 struct ship *
-ship__init(void)
+ship__init(ship_params_st params)
 {
-    // Is there any way to use gameobj__init() then just initialize
-    // what is left ?
     struct ship * self;
     self = malloc(sizeof *self);
 
-    self->size = 1.0;
+    self->size = params.size;
 
-    point3f* axis;
+    point3f_st * axis;
     axis = malloc(sizeof *axis);
     self->axis = axis;
 
-    point3f* position;
+    point3f_st * position;
     position = malloc(sizeof *position);
     self->position = position;
 
-    point3f* velocity;
+    point3f_st * velocity;
     velocity = malloc(sizeof *velocity);
     self->velocity = velocity;
 
-    self->acceleration = 0.0;
+    self->acceleration = params.acceleration;
 
-    self->angle = 0.0;
-    self->ang_velocity = 0.0;
+    self->angle = params.angle;
+    self->ang_velocity = params.ang_velocity;
 
-    sphere3f* bound_sphere;
+    sphere3f_st * bound_sphere;
     bound_sphere = malloc(sizeof *bound_sphere);
     self->bound_sphere = bound_sphere;
 
     self->active = false;
-    self->life_timer = 0;
-    self->type = 0;
+    self->life_timer = params.life_timer;
+    self->type = params.type;
     self->obj_flags  = OBJ_RESET;        // Reset flags
     self->obj_flags |= OBJ_SHIP;      // Controlled ship has no timer
 
@@ -47,25 +45,24 @@ ship__init(void)
     control = malloc(sizeof *control);
     self->control = control;
 
-    self->active_bullet_count = 0;
+    self->active_bullet_count = params.active_bullet_count;
     self->thrust = false;
     self->rev_thrust = false;
     self->shot_power_level = 0;
-    self->invincibility_timer = 0;
+    self->invincibility_timer = params.invincibility_timer;
    
     return self;
 }
 
 
 void
-ship__destroy(struct ship * self)
+ship__free(struct ship * self)
 {
-    free(self->control);
     free(self->bound_sphere);
     free(self->velocity);
     free(self->axis);
     free(self->position);
-    free(self->control);
+    free(self->control);  
     free(self);
 }
 

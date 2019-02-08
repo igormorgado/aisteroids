@@ -6,37 +6,37 @@
 
 
 struct gameobj *
-gameobj__init(void)
+gameobj__init(struct gameobj_params params)
 {
     struct gameobj * self;
     self = malloc(sizeof *self);
 
-    self->size = 1.0;
+    self->size = params.size;
 
-    point3f * axis;
+    point3f_st * axis;
     axis = malloc(sizeof *axis);
     self->axis = axis;
 
-    point3f * position;
+    point3f_st * position;
     position = malloc(sizeof *position);
     self->position = position;
 
-    point3f * velocity;
+    point3f_st * velocity;
     velocity = malloc(sizeof *velocity);
     self->velocity = velocity;
 
-    self->acceleration = 0.0;
+    self->acceleration = params.acceleration;
 
-    self->angle = 0.0;
-    self->ang_velocity = 0.0;
+    self->angle = params.angle;
+    self->ang_velocity = params.ang_velocity;
 
-    sphere3f * bound_sphere;
+    sphere3f_st * bound_sphere;
     bound_sphere = malloc(sizeof *bound_sphere);
     self->bound_sphere = bound_sphere;
 
-    self->active = false;
-    self->life_timer = 0;
-    self->type = 0;
+    self->active = params.active;
+    self->life_timer = params.life_timer;
+    self->type = params.type;
     self->obj_flags = OBJ_RESET;
 
     return self;
@@ -44,7 +44,7 @@ gameobj__init(void)
 
 
 void 
-gameobj__destroy(struct gameobj * self)
+gameobj__free(struct gameobj * self)
 {
     free(self->bound_sphere);
     free(self->velocity);
@@ -73,7 +73,7 @@ gameobj__update(struct gameobj * self, float dt)
 }
 
 
-point3f *
+point3f_st *
 gameobj__unit_vector_facing(struct gameobj * self)
 {
     //Returns the direction unit vector
@@ -81,7 +81,7 @@ gameobj__unit_vector_facing(struct gameobj * self)
 }
 
 
-point3f *
+point3f_st *
 gameobj__unit_vector_velocity(struct gameobj * self)
 {
     //Returns the velocity unit vector

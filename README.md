@@ -46,5 +46,8 @@ but in long run this will make harder to read.
 at least for a small degree of precision, of course details would go on internal
 documentation.
 
-
-
+8. Standard for standard obj methods: 
+  `OBJ__init`: initializer, set variables from `OBJ_params`  and creates 
+               substructs;
+               `OBJ_free` in end;
+  `OBJ__free`: deallocator free the object itself.

@@ -4,19 +4,18 @@
 #include "ship.h"
 
 struct ai_control *
-ai_control__init(struct ship *ship, int type)
+ai_control__init(struct ai_control_params params)
 {
     struct ai_control * self;
     self = malloc(sizeof *self);
-    self->ship = ship;
-    self->type = type;
+    self->ship = params.ship;
+    self->type = params.type;
 
     return self;
-
 }
 
 void
-ai_control__destroy(struct ai_control * self)
+ai_control__free(struct ai_control * self)
 {
     free(self);
 }
@@ -24,7 +23,7 @@ ai_control__destroy(struct ai_control * self)
 void
 ai_control__update(struct ai_control *self, float dt)
 {
-
+    return;
 }
 
 void
