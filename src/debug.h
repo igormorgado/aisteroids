@@ -5,6 +5,7 @@
  * Add level to debug
  * Add timestamp to debug
  */
+// debug_print_body_fmt(body) do { char *s= ...; debug_print("%s", s); free(s); } while(0)
 
 #include <stdio.h>
 
@@ -23,4 +24,4 @@ enum LOGLEVEL
 
 #define debug_print(fmt, ...) do { if (DEBUG) fprintf(stderr, "%s:%d:%s() " fmt, __FILE__, __LINE__, __func__, __VA_ARGS__); } while(0)
 
-#endif
+#endif /* __DEBUG_H__ */

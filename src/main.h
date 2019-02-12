@@ -17,5 +17,4 @@
 #include "ship.h"
 
 
-#endif
-
+#endif /* __MAIN_H__ */

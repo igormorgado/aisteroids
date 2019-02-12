@@ -17,32 +17,30 @@ enum OBJFLAGS
    OBJ_NOTIMER   = 1 << 7
 };
 
-typedef struct gameobj_params gameobj_params_st;
 struct gameobj_params
 {
     float size;
     float acceleration;          /* scalar acceleration */
     float angle;                 /* Angle of direcion xy */
     float ang_velocity;          /* Angle change velocity clockwise oriented */
-    float active;
+    bool active;
     float life_timer;
     float type;
 };
 
-typedef struct gameobj gameobj_st;
 struct gameobj
 {
     float size;
 
-    point3f_st * axis;
-    point3f_st * position;          /*x,y,z spatial position */
-    point3f_st * velocity;          /*x,y,z velocity */
+    struct point3f * axis;
+    struct point3f * position;          /*x,y,z spatial position */
+    struct point3f * velocity;          /*x,y,z velocity */
     float acceleration;          /* scalar acceleration */
 
     float angle;                 /* Angle of direcion xy */
     float ang_velocity;          /* Angle change velocity clockwise oriented */
 
-    sphere3f_st * bound_sphere;     /* Colision bounded sphere */
+    struct sphere3f * bound_sphere;     /* Colision bounded sphere */
 
     bool active;                 /* Is this object active ? */
 
@@ -63,7 +61,9 @@ struct gameobj * gameobj__init(struct gameobj_params params);
 void             gameobj__free(struct gameobj * self);
 
 void             gameobj__update(struct gameobj * self, float dt);
-point3f_st *     gameobj__unit_vector_facing(struct gameobj * self);   //Returns the direction unit vector
-point3f_st *     gameobj__unit_vector_velocity(struct gameobj * self); //Returns the velocity unit vector
+void		 gameobj__print(struct gameobj * self);
 
-#endif
+struct point3f *     gameobj__unit_vector_facing(struct gameobj * self);   //Returns the direction unit vector
+struct point3f *     gameobj__unit_vector_velocity(struct gameobj * self); //Returns the velocity unit vector
+
+#endif /* __GAMEOBJ_H__ */

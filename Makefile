@@ -6,7 +6,7 @@ BIN := aisteroids
 COMPILE_OPTS = -DDEBUG
 
 CC = gcc
-CFLAGS=-g  -ggdb -std=c11 -fms-extensions  -Wall -Wpedantic `pkg-config --cflags sdl2 SDL2_image`
+CFLAGS=-g  -ggdb -std=c11 -Wall -Wpedantic `pkg-config --cflags sdl2 SDL2_image`
 LDFLAGS=-lm `pkg-config --libs sdl2 SDL2_image`
 
 $(BIN): $(OBJ_FILES)
@@ -15,5 +15,11 @@ $(BIN): $(OBJ_FILES)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(COMPILE_OPTS) -c -o $@ $< 
 
-clean:
+test:
+	make -C test_code
+
+test_clean:
+	make -C test_code clean
+
+clean: test_clean
 	rm -rf $(BIN) $(OBJ_FILES)

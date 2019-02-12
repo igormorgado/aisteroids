@@ -3,7 +3,6 @@
 
 #include <SDL2/SDL_image.h>
 
-typedef struct sdl_connector_params sdl_connector_params_st;
 struct sdl_connector_params 
 {
     int window_x;
@@ -14,7 +13,6 @@ struct sdl_connector_params
     int renderer_flags;
 };
 
-typedef struct sdl_connector sdl_connector_st;
 struct sdl_connector 
 {
     SDL_Renderer *renderer;
@@ -30,5 +28,4 @@ struct sdl_connector
 struct sdl_connector * sdl_conn__init(struct sdl_connector_params params);
 void                   sdl_conn__free(struct sdl_connector * self);
 
-#endif
-
+#endif /* __SDL_H__ */

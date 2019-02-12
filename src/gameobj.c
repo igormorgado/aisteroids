@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "gameobj.h"
 #include "phys.h"
@@ -13,15 +14,19 @@ gameobj__init(struct gameobj_params params)
 
     self->size = params.size;
 
-    point3f_st * axis;
+    struct point3f * axis;
     axis = malloc(sizeof *axis);
     self->axis = axis;
 
-    point3f_st * position;
+    /* TODO:
+     * Instead a pointer should we use the direct reference as
+     * struct point position
+     */
+    struct point3f * position;
     position = malloc(sizeof *position);
     self->position = position;
 
-    point3f_st * velocity;
+    struct point3f * velocity;
     velocity = malloc(sizeof *velocity);
     self->velocity = velocity;
 
@@ -30,7 +35,7 @@ gameobj__init(struct gameobj_params params)
     self->angle = params.angle;
     self->ang_velocity = params.ang_velocity;
 
-    sphere3f_st * bound_sphere;
+    struct sphere3f * bound_sphere;
     bound_sphere = malloc(sizeof *bound_sphere);
     self->bound_sphere = bound_sphere;
 
@@ -72,8 +77,22 @@ gameobj__update(struct gameobj * self, float dt)
     }
 }
 
+void
+gameobj__print(struct gameobj * self)
+{
+	char *sfmt = point3f_fmt(self->position);
+	printf("Type: %d - Flags: %d -  Active: %5s - Pos (%s)\n",
+	        self->type,
+	        self->obj_flags,
+	        self->active ? "true":"false",
+		sfmt
+	);
+	free(sfmt);
+}
 
-point3f_st *
+
+
+struct point3f *
 gameobj__unit_vector_facing(struct gameobj * self)
 {
     //Returns the direction unit vector
@@ -81,7 +100,7 @@ gameobj__unit_vector_facing(struct gameobj * self)
 }
 
 
-point3f_st *
+struct point3f *
 gameobj__unit_vector_velocity(struct gameobj * self)
 {
     //Returns the velocity unit vector

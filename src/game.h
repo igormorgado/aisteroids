@@ -32,13 +32,11 @@ enum GAMESTATE
     STATE_GAMEOVER
 };
 
-typedef struct game_params game_params_st;
 struct game_params
 {
     int num_lives;
 };
 
-typedef struct game game_st;
 struct game 
 {
     struct sdl_connector *sdlconn;
@@ -50,17 +48,18 @@ struct game
     float powerup_timer;
     int state;
     int score;
+    int highscore;
     int num_lives;
     int wave_number;
     int num_asteroids;
     bool ai_on;
 
     // Game entities
-    struct ship * ship;
+    struct ship * main_ship;
     struct human_control * human_control;
     struct ai_control * ai_control;
 
-    gameobjlist_st * active_obj;
+    struct gameobjlist * active_obj;
 };
 
 
@@ -70,12 +69,12 @@ void          game__free(struct game * self);
 void          game__update(struct game * self, float dt);
 void          game__draw(struct game * self);
 void          game__draw_lives(struct game * self);
-void          game__clip(struct game * self, point3f_st * p);
+void          game__clip(struct game * self, struct point3f * p);
 void          game__use_control(struct game *self, int control);
 void          game__blit(struct game *self);
 void          game__wait(struct game *self, int wait);
 
-void          game__increment_score(struct game * self, int value); 
+void          game__update_score(struct game *self);
 void          game__reset_score(struct game * self);
 
 void          game__start(struct game * self);
@@ -87,4 +86,4 @@ void          game__kill_ship(struct game * self, struct ship * ship);
 
 
 
-#endif
+#endif /* __GAME_H__ */

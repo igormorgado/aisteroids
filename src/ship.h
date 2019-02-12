@@ -6,18 +6,18 @@
 #include "control.h"
 
 
-typedef struct ship_params ship_params_st;
 struct ship_params {
-    struct gameobj_params;
+    struct gameobj_params base;
     int active_bullet_count;
     int shot_power_level;
     float invincibility_timer;
+    int score;
 };
 
-typedef struct ship ship_st;
 struct ship {
-    struct gameobj;
+    struct gameobj base;
 
+    int score;
     struct control * control;
     int active_bullet_count;
     bool thrust;
@@ -32,6 +32,7 @@ void            ship__free(struct ship * self);
 
 // Game loop
 void            ship__update(struct ship * self, float dt);
+void            ship__increment_score(struct ship * self, int value); 
 
 // Controls
 void            ship__thrust_on(struct ship * self);
@@ -62,4 +63,4 @@ void            ship__do_collision(struct ship * self, struct gameobj * ob);
 
 // Formatting functions
 char *          ship__fmt(const struct ship * self);
-#endif
+#endif /* __SHIP_H__ */

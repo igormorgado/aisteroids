@@ -1,35 +1,31 @@
-#ifndef __LINKED_LIST_H__
-#define __LINKED_LIST_H__
+#ifndef __GAMEOBJLIST_H__
+#define __GAMEOBJLIST_H__
 
 #include <sys/types.h>
 #include "gameobj.h"
+#include "gameobjnode.h"
 
-typedef struct gameobjnode gameobjnode_st;
-struct gameobjnode
-{
-    int              key;
-    struct gameobj * obj;
-    gameobjnode_st * prev;
-    gameobjnode_st * next;
-};
-
-typedef struct gameobjlist gameobjlist_st;
 struct gameobjlist
 {
     size_t        size;
     gameobjnode_st * head;
+    gameobjnode_st * tail;
 };
 
 
-gameobjlist_st * gameobjlist__init(void);
-void             gameobjlist__free(gameobjlist_st *self);
-void             gameobjlist__add(gameobjlist_st *self, struct gameobj *obj);
+struct gameobjlist * gameobjlist__init(void);
+void                 gameobjlist__free(struct gameobjlist *self);
+void                 gameobjlist__add(struct gameobjlist *self, struct gameobj *obj);
+void                 gameobjlist__remove(struct gameobjlist * self, struct gameobjnode *node);
+void                 gameobjlist__remove_by_key(struct gameobjlist * self, int key);
+void                 gameobjlist__remove_by_pos(struct gameobjlist * self, int pos);
 
-// void          gameobjlist__remove(gameobjlist *self, gameobjnode *node);
-// void          gameobjlist__remove_by_key(gameobjlist *self, int key);
-// void          gameobjlist__remove_by_pos(gameobjlist *self, int pos);
-//struct  gameobj     * gameobjlist__next_by_type(gameobjlist *self, int type);
-//struct  gameobj     * gameobjlist__next_flag(gameobjlist *self, unsigned int objFlag);
+struct gameobjnode * gameobjlist__begin(struct gameobjlist * self);
 
-void          gameobjlist__print(gameobjlist_st *self);
-#endif
+void                 gameobjlist__foreach(struct gameobjlist * self, 
+                                          void (*f)(struct gameobjnode *, void*),
+                                          void * f_data);
+
+void                 gameobjlist__print(struct gameobjlist *self);
+
+#endif /* __GAMEOBJLIST_H__ */

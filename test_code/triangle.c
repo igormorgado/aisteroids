@@ -3,9 +3,9 @@
 #include <math.h>
 #include <stdio.h>
 
-const int MAX_SHIPS = 100;
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int MAX_SHIPS = 20;
+const int SCREEN_WIDTH = 1920;
+const int SCREEN_HEIGHT = 1080;
 typedef float triangle[3][2];
 
 void rotate( float angle,  float srcx,  float srcy, float * dstx, float * dsty) 
@@ -62,6 +62,11 @@ void drawship(SDL_Renderer *renderer, triangle ship, float x, float y, float ang
     memcpy(&mship, &tship, sizeof(triangle));
 
     // printf("CSHIP %s\n", ship_fmt(mship));
+    //Scale
+    for(int i=0; i<3; i++)
+        scale(zoom, mship[i][0], mship[i][1], &tship[i][0], &tship[i][1]);
+    memcpy(&mship, &tship, sizeof(triangle));
+
 
     // Rotate
     for(int i=0; i<3; i++)
@@ -70,11 +75,6 @@ void drawship(SDL_Renderer *renderer, triangle ship, float x, float y, float ang
 
     // printf("RSHIP %s\n", ship_fmt(mship));
  
-    //Scale
-    for(int i=0; i<3; i++)
-        scale(zoom, mship[i][0], mship[i][1], &tship[i][0], &tship[i][1]);
-    memcpy(&mship, &tship, sizeof(triangle));
-
     // printf("SSHIP %s\n", ship_fmt(mship));
     
     // Translate to ship origin 
@@ -92,7 +92,7 @@ void drawship(SDL_Renderer *renderer, triangle ship, float x, float y, float ang
 
     // printf("PSHIP %s\n", ship_fmt(mship));
 
-    aatrigonRGBA(renderer, 
+    trigonRGBA(renderer, 
             mship[0][0], mship[0][1],
             mship[1][0], mship[1][1],
             mship[2][0], mship[2][1],
@@ -130,17 +130,17 @@ int main(int argc, char *argv[])
         x[i] = rand()%SCREEN_WIDTH;
         y[i] = rand()%SCREEN_HEIGHT;
         angle[i] = (rand()%360) * (M_PI/180);
-        scale[i] = rand()%10 + 10;
-        angvel[i] = rand()%10 / 10. + .2;
+        scale[i] = rand()%10 + 30;
+        angvel[i] = rand()%10 / 10. + .3;
         r[i] = rand()/255;
         g[i] = rand()/255;
         b[i] = rand()/255;
     }
 
     // Unzado
-    //triangle ship = { { 0.0f, -1.0f }, { 1.0f, 0.0f}, { 0.0f, 1.0f} };
+    // triangle ship = { { 0.0f, -1.0f }, { 1.0f, 0.0f}, { 0.0f, 1.0f} };
     // Equilatero
-    //triangle ship = { { 0.0f, 0.0f }, { (sqrt(3)/2), 0.5f}, { 0.0f, 1.0f} };
+    // triangle ship = { { 0.0f, 0.0f }, { (sqrt(3)/2), 0.5f}, { 0.0f, 1.0f} };
     // Isosceles
     triangle ship = { { 0.0f, 0.0f }, { 2.0f, 0.5f}, { 0.0f, 1.0f} };
 
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
                 quit = 1;
 
         // Draw a ugly background
-        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 10);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         for(int i = 0; i < MAX_SHIPS; i++)
@@ -161,7 +161,6 @@ int main(int argc, char *argv[])
         }
 
         SDL_RenderPresent(renderer);
-        SDL_Delay(1);
 
     }
 
@@ -169,6 +168,4 @@ int main(int argc, char *argv[])
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
-
-
 

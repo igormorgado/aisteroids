@@ -5,4 +5,4 @@
 
 void background__draw(struct game *game);
 
-#endif
+#endif /* __BACKGROUND_H__ */

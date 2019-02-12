@@ -5,7 +5,6 @@
 #include "gameobj.h"
 #include "control.h"
 
-typedef struct bullet_params bullet_params_st;
 struct bullet_params {
     float size;
     float acceleration;
@@ -15,12 +14,12 @@ struct bullet_params {
     float life_timer;
     int type;
     unsigned int obj_flags;
+    struct gameobj * parent;              // Bullet owner
 };
 
-typedef struct bullet bullet_st;
 struct bullet {
-    struct gameobj;
-    bool player_bullet;
+    struct gameobj base;
+    struct gameobj * parent;
 };
 
 // Memory management
@@ -38,4 +37,4 @@ void                bullet__do_collision(struct bullet * self, struct gameobj * 
 // Formatting
 char *              bullet__fmt(const struct bullet * self);
 
-#endif
+#endif /* __BULLET_H__ */

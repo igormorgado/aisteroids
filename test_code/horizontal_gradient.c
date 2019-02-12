@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 
+
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
@@ -67,6 +68,37 @@ int main(int argc, char *argv[])
     SDL_Color c1 = (SDL_Color) { 0, 0, 0, 255 };
     SDL_Color c2 = (SDL_Color) { 255, 255, 255, 255 };
     int fill = 0;
+
+    if(argc > 1 && argc != 15)
+    {
+        printf("%s x y w h s r1 g1 b1 a1 r2 g2 b2 a2 fill  (all integers)\n", argv[0]);
+        printf("Examples:\n\n");
+        printf("./horizontal_gradient  120 120 200 200 50  255 200 200 255 255 10 10 255 1\n");
+        printf("./horizontal_gradient  120 120 200 200 20  0 255 200 255 255 10 10 255 0\n");
+        printf("\n");
+        exit(1);
+    }
+    else if(argc > 1 && argc == 15)
+    {
+        x = atoi(argv[1]);
+        y = atoi(argv[2]);
+        w = atoi(argv[3]);
+        h = atoi(argv[4]);
+        s = atoi(argv[5]);
+        c1 = (SDL_Color) {
+            atoi(argv[6]),
+            atoi(argv[7]),
+            atoi(argv[8]),
+            atoi(argv[9])
+        };
+        c2 = (SDL_Color) {
+            atoi(argv[10]),
+            atoi(argv[11]),
+            atoi(argv[12]),
+            atoi(argv[13])
+        };
+        fill = atoi(argv[14]);
+    }
 
     int quit = 0;
     SDL_Rect contour = { x-1, y-1, w+2, h+2};

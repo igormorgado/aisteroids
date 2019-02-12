@@ -6,39 +6,39 @@
 #include "debug.h"
 
 struct ship *
-ship__init(ship_params_st params)
+ship__init(struct ship_params params)
 {
     struct ship * self;
     self = malloc(sizeof *self);
 
-    self->size = params.size;
+    self->base.size = params.base.size;
 
-    point3f_st * axis;
+    struct point3f * axis;
     axis = malloc(sizeof *axis);
-    self->axis = axis;
+    self->base.axis = axis;
 
-    point3f_st * position;
+    struct point3f * position;
     position = malloc(sizeof *position);
-    self->position = position;
+    self->base.position = position;
 
-    point3f_st * velocity;
+    struct point3f * velocity;
     velocity = malloc(sizeof *velocity);
-    self->velocity = velocity;
+    self->base.velocity = velocity;
 
-    self->acceleration = params.acceleration;
+    self->base.acceleration = params.base.acceleration;
 
-    self->angle = params.angle;
-    self->ang_velocity = params.ang_velocity;
+    self->base.angle = params.base.angle;
+    self->base.ang_velocity = params.base.ang_velocity;
 
-    sphere3f_st * bound_sphere;
+    struct sphere3f * bound_sphere;
     bound_sphere = malloc(sizeof *bound_sphere);
-    self->bound_sphere = bound_sphere;
+    self->base.bound_sphere = bound_sphere;
 
-    self->active = false;
-    self->life_timer = params.life_timer;
-    self->type = params.type;
-    self->obj_flags  = OBJ_RESET;        // Reset flags
-    self->obj_flags |= OBJ_SHIP;      // Controlled ship has no timer
+    self->base.active = params.base.active;
+    self->base.life_timer = params.base.life_timer;
+    self->base.type = params.base.type;
+    self->base.obj_flags  = OBJ_RESET;        // Reset flags
+    self->base.obj_flags |= OBJ_SHIP;      // Controlled ship has no timer
 
     // struct ship only members
     struct control * control;
@@ -54,14 +54,13 @@ ship__init(ship_params_st params)
     return self;
 }
 
-
 void
 ship__free(struct ship * self)
 {
-    free(self->bound_sphere);
-    free(self->velocity);
-    free(self->axis);
-    free(self->position);
+    free(self->base.bound_sphere);
+    free(self->base.velocity);
+    free(self->base.axis);
+    free(self->base.position);
     free(self->control);  
     free(self);
 }
@@ -69,23 +68,45 @@ ship__free(struct ship * self)
 void
 ship__update(struct ship * self, float dt)
 {
-    debug_print("%s\n", ship__fmt(self));
-    accelerate(self->velocity, self->acceleration, dt);
-    debug_print("%s\n", ship__fmt(self));
-    move(self->position, self->velocity, dt);
-    debug_print("%s\n", ship__fmt(self));
-    rotate(&(self->angle), self->ang_velocity, dt);
-    debug_print("%s\n", ship__fmt(self));
-    self->position->z = 0.0f;
-    debug_print("%s\n", ship__fmt(self));
+	char *s1 = ship__fmt(self);
+	debug_print("%s\n", s1 );
+	free(s1);
 
-    if((self->obj_flags & OBJ_NOTIMER) == 0)
-    {
-        self->life_timer -= dt;
-        if(self->life_timer < 0.0f) {
-            self->active = false;
-        }
-    }
+	accelerate(self->base.velocity, self->base.acceleration, dt);
+	char *s2 = ship__fmt(self);
+	debug_print("%s\n", s2);
+	free(s2);
+
+	move(self->base.position, self->base.velocity, dt);
+
+	char *s3 = ship__fmt(self);
+	debug_print("%s\n", s3);
+	free(s3);
+
+	rotate(&(self->base.angle), self->base.ang_velocity, dt);
+
+	char *s4 = ship__fmt(self);
+	debug_print("%s\n", s4);
+	free(s4);
+
+	self->base.position->z = 0.0f;
+
+	char *s5 = ship__fmt(self);
+	debug_print("%s\n", s5);
+	free(s5);
+
+	if((self->base.obj_flags & OBJ_NOTIMER) == 0) {
+		self->base.life_timer -= dt;
+		if(self->base.life_timer < 0.0f) {
+			self->base.active = false;
+		}
+	}
+}
+
+void
+ship__increment_score(struct ship * self, int value) 
+{
+    self->score += value;
 }
 
 
@@ -125,16 +146,16 @@ ship__turn_right(struct ship * self)
 void 
 ship__turn_stop(struct ship * self)
 {
-    self->ang_velocity = 0.0;
+    self->base.ang_velocity = 0.0;
 }
 
 void 
 ship__stop(struct ship * self)
 {
-    self->velocity->x = 0.;
-    self->velocity->y = 0.;
-    self->velocity->z = 0.;
-    self->acceleration = 0.;
+    self->base.velocity->x = 0.;
+    self->base.velocity->y = 0.;
+    self->base.velocity->z = 0.;
+    self->base.acceleration = 0.;
 }
 
 void 
@@ -203,10 +224,15 @@ ship__fmt(const struct ship * self)
     char * s;
     s = malloc(tsize + 1);
 
-    snprintf(s, tsize, "P(%s), V(%s), A(%.2f), O(%.2f), T(%.2f)",
-            point3f_fmt(self->position),
-            point3f_fmt(self->velocity),
-            self->acceleration, self->angle, self->ang_velocity);
+    char *pp = point3f_fmt(self->base.position);	
+    char *pv = point3f_fmt(self->base.velocity);
 
+    snprintf(s, tsize, "P(%s), V(%s), A(%.2f), O(%.2f), T(%.2f)",
+            pp,
+            pv,
+            self->base.acceleration, self->base.angle, self->base.ang_velocity);
+
+    free(pv);
+    free(pp);
     return s;
 }

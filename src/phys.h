@@ -1,8 +1,6 @@
 #ifndef __PHYS_H__
 #define __PHYS_H__
 
-typedef struct point3f point3f_params_st;
-typedef struct point3f point3f_st;
 struct point3f {
     float x;
     float y;
@@ -10,8 +8,6 @@ struct point3f {
 };
 
 
-typedef struct sphere3f sphere3f_params_st;
-typedef struct sphere3f sphere3f_st;
 struct sphere3f {
     float x;
     float y;
@@ -19,19 +15,19 @@ struct sphere3f {
     float r;
 };
 
-point3f_st * point3d_init(point3f_params_st params);
-void         point3d_free(point3f_st * self);
+struct point3f * point3f_init(struct point3f params);
+void         point3f_free(struct point3f * self);
 
-sphere3f_st * sphere3f_init(sphere3f_params_st params);
-void          sphere3f_free(sphere3f_st *self);
+struct sphere3f * sphere3f_init(struct sphere3f params);
+void          sphere3f_free(struct sphere3f *self);
 
-double norm(const point3f_st * v);
-void unit_vector(const point3f_st * v, point3f_st * u);
+double norm(const struct point3f * v);
+void unit_vector(const struct point3f * v, struct point3f * u);
 
-void accelerate(point3f_st * velocity, const float acceleration, const float dt);
-void move(point3f_st * position, const point3f_st * velocity, const float dt);
+void accelerate(struct point3f * velocity, const float acceleration, const float dt);
+void move(struct point3f * position, const struct point3f * velocity, const float dt);
 void rotate(float * angle, const float angVelocity, const float dt);
 
-char * point3f_fmt(const point3f_st * vector);
+char * point3f_fmt(const struct point3f * vector);
 
-#endif
+#endif /* __PHYS_H__ */

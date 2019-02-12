@@ -5,12 +5,12 @@
 #include "phys.h"
 
 double
-norm(const point3f_st * v) {
+norm(const struct point3f * v) {
     return sqrt(v->x*v->x + v->y*v->y + v->z*v->z);
 }
 
 void 
-unit_vector(const point3f_st * v, point3f_st * u)
+unit_vector(const struct point3f * v, struct point3f * u)
 {
     double n = norm(v);
 
@@ -20,7 +20,7 @@ unit_vector(const point3f_st * v, point3f_st * u)
 }
 
 void 
-accelerate(point3f_st * velocity, const float acceleration, const float dt)
+accelerate(struct point3f * velocity, const float acceleration, const float dt)
 {
     velocity->x += dt * acceleration;
     velocity->y += dt * acceleration;
@@ -28,7 +28,7 @@ accelerate(point3f_st * velocity, const float acceleration, const float dt)
 }
 
 void 
-move(point3f_st * position, const point3f_st *velocity, const float dt)
+move(struct point3f * position, const struct point3f *velocity, const float dt)
 {
     position->x += dt * velocity->x;
     position->y += dt * velocity->y;
@@ -43,7 +43,7 @@ rotate(float * angle, const float angVelocity, const float dt)
 }
 
 char *
-point3f_fmt(const point3f_st * vector)
+point3f_fmt(const struct point3f * vector)
 {
     char * s;
     const int nsize = 3;     // Number of elements in vector
