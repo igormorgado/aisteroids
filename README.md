@@ -12,7 +12,7 @@ make
 
 # ERROR
 
-Valgring is returning
+Valgring is returning 
 
 ```
 ==26013== Conditional jump or move depends on uninitialised value(s)
@@ -38,6 +38,8 @@ Valgring is returning
 ==26013==    by 0x401D33: main (main.c:30)
 ...
 ```
+
+More at ![./valg.err.txt](./valg.err.txt).
 
 
 
