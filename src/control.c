@@ -2,12 +2,13 @@
 
 #include "control.h"
 #include "ship.h"
+#include "common.h" 
 
 struct control *
 control__init(struct control_params params)
 {
     struct control * self;
-    self = malloc(sizeof *self);
+    self = smalloc(sizeof *self);
     self->type = params.type;
     return self;
 }
@@ -15,7 +16,7 @@ control__init(struct control_params params)
 void
 control__free(struct control * self)
 {
-    free(self);
+    sfree(self);
 }
 
 void

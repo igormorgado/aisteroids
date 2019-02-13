@@ -1,11 +1,12 @@
 #include "sdl.h"
+#include "common.h"
 
 
 struct sdl_connector * 
 sdl_conn__init(struct sdl_connector_params params)
 {
     struct sdl_connector * self;
-    self = malloc(sizeof *self);
+    self = smalloc(sizeof *self);
 
     self->renderer_flags = params.renderer_flags;
     self->window_flags = params.window_flags;
@@ -44,7 +45,7 @@ sdl_conn__free(struct sdl_connector * self)
 {
     SDL_DestroyRenderer(self->renderer);
     SDL_DestroyWindow(self->window);
-    free(self);
+    sfree(self);
     IMG_Quit();
     SDL_Quit();
 }

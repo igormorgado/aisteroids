@@ -4,18 +4,19 @@
 
 #include "gameobj.h"
 #include "phys.h"
+#include "common.h"
 
 
 struct gameobj *
 gameobj__init(struct gameobj_params params)
 {
     struct gameobj * self;
-    self = malloc(sizeof *self);
+    self = smalloc(sizeof *self);
 
     self->size = params.size;
 
     struct point3f * axis;
-    axis = malloc(sizeof *axis);
+    axis = smalloc(sizeof *axis);
     self->axis = axis;
 
     /* TODO:
@@ -23,11 +24,11 @@ gameobj__init(struct gameobj_params params)
      * struct point position
      */
     struct point3f * position;
-    position = malloc(sizeof *position);
+    position = smalloc(sizeof *position);
     self->position = position;
 
     struct point3f * velocity;
-    velocity = malloc(sizeof *velocity);
+    velocity = smalloc(sizeof *velocity);
     self->velocity = velocity;
 
     self->acceleration = params.acceleration;
@@ -36,7 +37,7 @@ gameobj__init(struct gameobj_params params)
     self->ang_velocity = params.ang_velocity;
 
     struct sphere3f * bound_sphere;
-    bound_sphere = malloc(sizeof *bound_sphere);
+    bound_sphere = smalloc(sizeof *bound_sphere);
     self->bound_sphere = bound_sphere;
 
     self->active = params.active;
@@ -51,11 +52,11 @@ gameobj__init(struct gameobj_params params)
 void 
 gameobj__free(struct gameobj * self)
 {
-    free(self->bound_sphere);
-    free(self->velocity);
-    free(self->position);
-    free(self->axis);
-    free(self);
+    sfree(self->bound_sphere);
+    sfree(self->velocity);
+    sfree(self->position);
+    sfree(self->axis);
+    sfree(self);
 }
 
 
@@ -87,22 +88,22 @@ gameobj__print(struct gameobj * self)
 	        self->active ? "true":"false",
 		sfmt
 	);
-	free(sfmt);
+	sfree(sfmt);
 }
 
 
 
-struct point3f *
-gameobj__unit_vector_facing(struct gameobj * self)
-{
-    //Returns the direction unit vector
-    return NULL;
-}
+// struct point3f *
+// gameobj__unit_vector_facing(struct gameobj * self)
+// {
+//     //Returns the direction unit vector
+//     return NULL;
+// }
 
 
-struct point3f *
-gameobj__unit_vector_velocity(struct gameobj * self)
-{
-    //Returns the velocity unit vector
-    return NULL;
-}
+// struct point3f *
+// gameobj__unit_vector_velocity(struct gameobj * self)
+// {
+//     //Returns the velocity unit vector
+//     return NULL;
+// }

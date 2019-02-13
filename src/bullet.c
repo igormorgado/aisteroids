@@ -2,25 +2,26 @@
 
 #include "bullet.h"
 #include "defs.h"
+#include "common.h"
 
 struct bullet *
 bullet__init(struct bullet_params params)
 {
     struct bullet * self;
-    self = malloc(sizeof *self);
+    self = smalloc(sizeof *self);
 
     self->base.size = params.size;
 
     struct point3f * axis;
-    axis = malloc(sizeof *axis);
+    axis = smalloc(sizeof *axis);
     self->base.axis = axis;
 
     struct point3f * position;
-    position = malloc(sizeof *position);
+    position = smalloc(sizeof *position);
     self->base.position = position;
 
     struct point3f * velocity;
-    velocity = malloc(sizeof *velocity);
+    velocity = smalloc(sizeof *velocity);
     self->base.velocity = velocity;
 
     self->base.acceleration = params.acceleration;
@@ -29,7 +30,7 @@ bullet__init(struct bullet_params params)
     self->base.ang_velocity = params.ang_velocity;
 
     struct sphere3f * bound_sphere;
-    bound_sphere = malloc(sizeof *bound_sphere);
+    bound_sphere = smalloc(sizeof *bound_sphere);
     self->base.bound_sphere = bound_sphere;
 
     self->base.active = params.active;
@@ -46,11 +47,11 @@ bullet__init(struct bullet_params params)
 void
 bullet__destroy(struct bullet * self)
 {
-    free(self->base.bound_sphere);
-    free(self->base.velocity);
-    free(self->base.position);
-    free(self->base.axis);
-    free(self);
+    sfree(self->base.bound_sphere);
+    sfree(self->base.velocity);
+    sfree(self->base.position);
+    sfree(self->base.axis);
+    sfree(self);
 }
 
 void

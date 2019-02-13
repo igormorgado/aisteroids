@@ -4,6 +4,7 @@
 
 #include "gameobj.h"
 #include "gameobjnode.h"
+#include "common.h" 
 
 struct gameobjnode *
 gameobjnode__init(struct gameobj * obj)
@@ -12,7 +13,7 @@ gameobjnode__init(struct gameobj * obj)
     // How to handle kew assignment without know the last key added to list?
     // Maybe a large random value to avoid conflict? 
     struct gameobjnode * self;
-    self = malloc(sizeof *self);
+    self = smalloc(sizeof *self);
     self->key = 0;      
     self->obj = obj;
     self->prev = NULL;
@@ -37,7 +38,7 @@ gameobjnode__free(struct gameobjnode * self)
      * Or should we return self->obj to be cleaned by caller?
      */
     
-    free(self);
+    sfree(self);
 
     return;
 }

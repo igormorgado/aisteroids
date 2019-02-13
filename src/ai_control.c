@@ -2,12 +2,13 @@
 
 #include "ai_control.h"
 #include "ship.h"
+#include "common.h"
 
 struct ai_control *
 ai_control__init(struct ai_control_params params)
 {
     struct ai_control * self;
-    self = malloc(sizeof *self);
+    self = smalloc(sizeof *self);
     self->base.ship = params.ship;
     self->base.type = params.type;
 
@@ -17,7 +18,7 @@ ai_control__init(struct ai_control_params params)
 void
 ai_control__free(struct ai_control * self)
 {
-    free(self);
+    sfree(self);
 }
 
 void

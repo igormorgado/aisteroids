@@ -3,13 +3,14 @@
 #include "gameobj.h"
 #include "gameobjnode.h"
 #include "gameobjlist.h"
+#include "common.h"
 
 
 struct gameobjlist *
 gameobjlist__init(void)
 {
 	struct gameobjlist *list;
-	list = malloc(sizeof *list);
+	list = smalloc(sizeof *list);
 
 	list->size = 0;
 	list->head = NULL;
@@ -115,9 +116,9 @@ gameobjlist__free(struct gameobjlist *self)
 	while(node)
 	{
 		next = node->next;
-		free(node);
+		sfree(node);
 		node = next;
 	}
-	free(self);
+	sfree(self);
 }
 

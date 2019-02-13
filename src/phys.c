@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "phys.h"
+#include "common.h" 
 
 double
 norm(const struct point3f * v) {
@@ -49,9 +50,9 @@ point3f_fmt(const struct point3f * vector)
     const int nsize = 3;     // Number of elements in vector
     const int vsize = 5;     // Vector total size
     const int fsize = 2;     // Float precision size
-    const int tsize = (nsize * (vsize + fsize + 1)) + (2 * (nsize - 1));
+    const int tsize = (nsize * (vsize + 1)) + (2 * (nsize - 1));
 
-    s = malloc(tsize + 1);
+    s = smalloc(tsize + 1);
     snprintf(s, tsize, "%*.*f, %*.*f, %*.*f", 
             vsize, fsize, vector->x,
             vsize, fsize, vector->y,

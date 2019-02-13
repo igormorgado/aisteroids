@@ -2,12 +2,13 @@
 
 #include "human_control.h"
 #include "ship.h"
+#include "common.h"
 
 struct human_control *
 human_control__init(struct human_control_params params)
 {
     struct human_control * self;
-    self = malloc(sizeof *self);
+    self = smalloc(sizeof *self);
     self->base.ship = params.ship;
     self->base.type = params.type;
 
@@ -18,14 +19,14 @@ human_control__init(struct human_control_params params)
 void
 human_control__destroy(struct human_control * self)
 {
-    free(self);
+    sfree(self);
 }
 
-void
-human_control__update(struct human_control *self, float dt)
-{
-
-}
+// void
+// human_control__update(struct human_control *self, float dt)
+// {
+// 
+// }
 
 void
 human_control__set_ship(struct human_control * self, struct ship * ship)
