@@ -6,7 +6,7 @@ BIN := aisteroids
 COMPILE_OPTS = -DDEBUG
 OPTMIZATIONS = -Os -O2 2
 
-CC = clang
+CC = gcc
 # -Wstrict-overflow -fno-strict-aliasing 
 # -Wextra -Werror -Wshadow  -Wno-missing-field-initializers
 PURISTFLAGS=-Wall -Wpedantic 

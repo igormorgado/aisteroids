@@ -22,6 +22,20 @@ enum LOGLEVEL
 };
 
 
-#define debug_print(fmt, ...) do { if (DEBUG) fprintf(stderr, "%s:%d:%s() " fmt, __FILE__, __LINE__, __func__, __VA_ARGS__); } while(0)
+#define debug_print(fmt, ...) do {				\
+		if (DEBUG)					\
+			fprintf(stderr, "%s:%d:%s() " fmt,	\
+					__FILE__,		\
+					__LINE__,		\
+					__func__,		\
+					__VA_ARGS__);		\
+	} while(0)
+
+#define debug_print_ship_fmt(body)				\
+	do {							\
+		char *s = ship__fmt(body);			\
+		debug_print("%s\n", s);				\
+		free(s);					\
+	} while(0)						\
 
 #endif /* __DEBUG_H__ */

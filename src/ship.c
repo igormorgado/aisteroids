@@ -1,5 +1,5 @@
-#include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "ship.h"
 #include "phys.h"
@@ -69,33 +69,15 @@ ship__free(struct ship * self)
 void
 ship__update(struct ship * self, float dt)
 {
-	char *s1 = ship__fmt(self);
-	debug_print("%s\n", s1 );
-	sfree(s1);
-
+	debug_print_ship_fmt(self);
 	accelerate(self->base.velocity, self->base.acceleration, dt);
-	char *s2 = ship__fmt(self);
-	debug_print("%s\n", s2);
-	sfree(s2);
-
+	debug_print_ship_fmt(self);
 	move(self->base.position, self->base.velocity, dt);
-
-	char *s3 = ship__fmt(self);
-	debug_print("%s\n", s3);
-	sfree(s3);
-
+	debug_print_ship_fmt(self);
 	rotate(&(self->base.angle), self->base.ang_velocity, dt);
-
-	char *s4 = ship__fmt(self);
-	debug_print("%s\n", s4);
-	sfree(s4);
-
+	debug_print_ship_fmt(self);
 	self->base.position->z = 0.0f;
-
-	char *s5 = ship__fmt(self);
-	debug_print("%s\n", s5);
-	sfree(s5);
-
+	debug_print_ship_fmt(self);
 	if((self->base.obj_flags & OBJ_NOTIMER) == 0) {
 		self->base.life_timer -= dt;
 		if(self->base.life_timer < 0.0f) {
