@@ -12,7 +12,33 @@ make
 
 # ERROR
 
-No errors reported. :-)
+Valgring is returning
+
+```
+==26013== Conditional jump or move depends on uninitialised value(s)
+==26013==    at 0x4BCDD10: __printf_fp_l (printf_fp.c:387)
+==26013==    by 0x4BCA74A: vfprintf (vfprintf.c:1637)
+==26013==    by 0x4BF2A0F: vsnprintf (vsnprintf.c:114)
+==26013==    by 0x4BD28CE: snprintf (snprintf.c:33)
+==26013==    by 0x401F0D: point3f_fmt (phys.c:56)
+==26013==    by 0x401CAF: ship__fmt (ship.c:229)
+==26013==    by 0x401A49: ship__update (ship.c:72)
+==26013==    by 0x401835: tests__run (tests.c:92)
+==26013==    by 0x401D33: main (main.c:30)
+==26013==
+==26013== Conditional jump or move depends on uninitialised value(s)
+==26013==    at 0x4BCDD2A: __printf_fp_l (printf_fp.c:387)
+==26013==    by 0x4BCA74A: vfprintf (vfprintf.c:1637)
+==26013==    by 0x4BF2A0F: vsnprintf (vsnprintf.c:114)
+==26013==    by 0x4BD28CE: snprintf (snprintf.c:33)
+==26013==    by 0x401F0D: point3f_fmt (phys.c:56)
+==26013==    by 0x401CAF: ship__fmt (ship.c:229)
+==26013==    by 0x401A49: ship__update (ship.c:72)
+==26013==    by 0x401835: tests__run (tests.c:92)
+==26013==    by 0x401D33: main (main.c:30)
+...
+```
+
 
 
 # Coding conventions
