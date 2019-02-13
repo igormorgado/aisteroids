@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "ship.h"
 #include "phys.h"
@@ -11,19 +12,23 @@ ship__init(struct ship_params params)
 {
     struct ship * self;
     self = smalloc(sizeof *self);
+    memset(self, 0, sizeof *self);
 
     self->base.size = params.base.size;
 
     struct point3f * axis;
     axis = smalloc(sizeof *axis);
+    memset(axis, 0, sizeof *axis);
     self->base.axis = axis;
 
     struct point3f * position;
     position = smalloc(sizeof *position);
+    memset(position, 0, sizeof *position);
     self->base.position = position;
 
     struct point3f * velocity;
     velocity = smalloc(sizeof *velocity);
+    memset(velocity, 0, sizeof *velocity);
     self->base.velocity = velocity;
 
     self->base.acceleration = params.base.acceleration;
@@ -33,6 +38,7 @@ ship__init(struct ship_params params)
 
     struct sphere3f * bound_sphere;
     bound_sphere = smalloc(sizeof *bound_sphere);
+    memset(bound_sphere, 0, sizeof *bound_sphere);
     self->base.bound_sphere = bound_sphere;
 
     self->base.active = params.base.active;

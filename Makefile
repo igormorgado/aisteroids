@@ -12,7 +12,7 @@ CC = gcc
 #-march=native -msse4.2 -ggdb -flto 
 PURISTFLAGS=-Wall -Wpedantic 
 CFLAGS=-g -std=c11 `pkg-config --cflags sdl2 SDL2_image`
-LDFLAGS=-flto -lm `pkg-config --libs sdl2 SDL2_image`
+LDFLAGS= -lm `pkg-config --libs sdl2 SDL2_image`
 
 $(BIN): $(OBJ_FILES)
 	$(CC) -o $@ $^ $(LDFLAGS) 

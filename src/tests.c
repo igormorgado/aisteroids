@@ -71,6 +71,9 @@ tests__run(void)
     ship1->base.position->x = 4.1;
     ship1->base.position->y = 4.2;
     ship1->base.position->z = 0.0;
+    // ship1->base.velocity->x = 0.0;
+    // ship1->base.velocity->y = 0.0;
+    // ship1->base.velocity->z = 0.0;
 
     
     /* Creates a list to hold the obj */
