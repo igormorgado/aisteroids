@@ -9,8 +9,9 @@ OPTMIZATIONS = -Os -O2 2
 CC = gcc
 # -Wstrict-overflow -fno-strict-aliasing 
 # -Wextra -Werror -Wshadow  -Wno-missing-field-initializers
+#-march=native -msse4.2 -ggdb -flto 
 PURISTFLAGS=-Wall -Wpedantic 
-CFLAGS=-g -march=native -msse4.2 -ggdb -flto -std=c11 `pkg-config --cflags sdl2 SDL2_image`
+CFLAGS=-g -std=c11 `pkg-config --cflags sdl2 SDL2_image`
 LDFLAGS=-flto -lm `pkg-config --libs sdl2 SDL2_image`
 
 $(BIN): $(OBJ_FILES)
@@ -35,5 +36,5 @@ leak: clean $(BIN)
 	valgrind --leak-check=full ./$(BIN)
 
 track: clean $(BIN)
-	valgrind --track-origins=yes ./$(BIN)
+	valgrind  -v --track-origins=yes ./$(BIN)
 	
