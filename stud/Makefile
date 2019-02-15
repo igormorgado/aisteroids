@@ -1,3 +1,4 @@
+BIN_DIR := ./bin
 SRC_DIR := .
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
 BIN_FILES := $(patsubst $(SRC_DIR)/%.c,%,$(SRC_FILES))
@@ -12,10 +13,10 @@ all: $(BIN_FILES)
 .PHONY: clean all
 
 %: %.c
-	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) 
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/$@ $< $(LDFLAGS) 
 
 # $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 # 	$(CC) $(CFLAGS) $(COMPILE_OPTS) -c -o $@ $< 
 
 clean:
-	rm -rf $(BIN_FILES)
+	rm -rf  $(patsubst $(SRC_DIR)/%.c,$(BIN_DIR)/%,$(SRC_FILES))
