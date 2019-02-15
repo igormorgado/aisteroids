@@ -4,17 +4,18 @@ UTIL_DIR := ./utils
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 SUP_FILES = $(wildcard $(UTIL_DIR)/*.supp)
+PERF_FILES := aisteroids.gprof gmon.out perf.data perf.data.old report
 
 BIN := aisteroids
 
 COMPILE_OPTS = -DDEBUG
-OPTMIZATIONS = -Os -O2
+OPTMIZATIONS = -Os 
 
 CC = gcc
 
 # -Wextra to be added later 
-CFLAGS := -g -ggdb -std=c11 -Wall -Wshadow -Wpedantic `pkg-config --cflags sdl2 SDL2_image`
-LDFLAGS := -lm `pkg-config --libs sdl2 SDL2_image`
+CFLAGS := -pg -g -ggdb -std=c11 -Wall -Wshadow -Wpedantic `pkg-config --cflags sdl2 SDL2_image`
+LDFLAGS := -pg -lm `pkg-config --libs sdl2 SDL2_image`
 
 SUPFLAGS = $(foreach file,$(SUP_FILES), --suppressions=$(file))
 
@@ -44,6 +45,13 @@ valg_supp_merge:
 	$(UTIL_DIR)/grindmerge.pl -f $(UTIL_DIR)/new_proc.supp > $(UTIL_DIR)/new_merged.supp
 	rm -rf $(UTIL_DIR)/new.supp $(UTIL_DIR)/new_proc.supp
 
+profile_perf: $(BIN)
+	perf_4.19 record -g ./$(BIN)
+	perf_4.19 report
+
+profile_gprof: $(BIN)
+	gprof ./aisteroids  > $(BIN).gprof
+
 stud:
 	make -C stud
 
@@ -51,7 +59,13 @@ stud_clean:
 	make -C stud clean
 
 clean: 
-	rm -rf $(BIN) $(OBJ_FILES)
+	rm -rf $(BIN) $(OBJ_FILES)  $(PERF_FILES)
+
+
 
 distclean: stud_clean clean
+
+install:
+	@echo "There is no install..." 
+
 

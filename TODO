@@ -1,0 +1,6 @@
+Tests to GAMEOBJ "class" check if active becomes inactive after some dt. Test if no timer do not suffer of that.
+
+GAME__UPDATE: to pass thru all active objects with debuggings on
+Collisions detections
+Write draw functions to basic objects (ship, asteroid)
+
