@@ -21,7 +21,6 @@ enum LOGLEVEL
     LL_DEBUG
 };
 
-
 #define debug_print(fmt, ...) do {				\
 		if (DEBUG)					\
 			fprintf(stderr, "%s:%d:%s() " fmt,	\
@@ -31,9 +30,16 @@ enum LOGLEVEL
 					__VA_ARGS__);		\
 	} while(0)
 
-#define debug_print_ship_fmt(body)				\
+#define debug_print_gameobj_fmt(obj)				\
 	do {							\
-		char *s = ship__fmt(body);			\
+		char *s = gameobj__fmt(obj);			\
+		debug_print("%s\n", s);				\
+		free(s);					\
+	} while(0)						\
+
+#define debug_print_ship_fmt(ship)				\
+	do {							\
+		char *s = ship__fmt(ship);			\
 		debug_print("%s\n", s);				\
 		free(s);					\
 	} while(0)						\

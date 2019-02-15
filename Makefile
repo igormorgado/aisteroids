@@ -36,5 +36,6 @@ leak: clean $(BIN)
 	valgrind --leak-check=full ./$(BIN)
 
 track: clean $(BIN)
-	valgrind  -v --track-origins=yes ./$(BIN)
+	valgrind --track-origins=yes ./$(BIN)
 	
+checkall: track leak scan

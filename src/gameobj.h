@@ -57,13 +57,14 @@ struct gameobj
 };
 
 // Memory management
-struct gameobj * gameobj__init(struct gameobj_params params);
+struct gameobj * gameobj__init(const struct gameobj_params params);
 void             gameobj__free(struct gameobj * self);
 
 void             gameobj__update(struct gameobj * self, float dt);
-void		 gameobj__print(struct gameobj * self);
+char *		 gameobj__fmt(const struct gameobj * self);
+void		 gameobj__print(const struct gameobj * self);
 
-struct point3f *     gameobj__unit_vector_facing(struct gameobj * self);   //Returns the direction unit vector
-struct point3f *     gameobj__unit_vector_velocity(struct gameobj * self); //Returns the velocity unit vector
+void		 gameobj__unit_vector_facing(struct gameobj * self, struct point3f * unit);   //Returns the direction unit vector
+void		 gameobj__unit_vector_velocity(struct gameobj * self, struct point3f * unit); //Returns the velocity unit vector
 
 #endif /* __GAMEOBJ_H__ */
