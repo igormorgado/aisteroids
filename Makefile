@@ -61,11 +61,10 @@ stud_clean:
 clean: 
 	rm -rf $(BIN) $(OBJ_FILES)  $(PERF_FILES)
 
-
-
 distclean: stud_clean clean
 
 install:
 	@echo "There is no install..." 
 
 
+.PHONY: stud stud_clean clean distclean install 
