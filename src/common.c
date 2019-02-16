@@ -20,5 +20,8 @@ void sfree(void * p)
 	if (p != NULL)
 		free(p);
 	else
-		debug_print("%s\n", "Null pointer dereferencing catched");
+		debug_print("%s at %p\n", 
+				"Null pointer dereferencing catched",
+				__builtin_return_address(0)
+		);
 }

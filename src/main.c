@@ -1,7 +1,6 @@
 #include "main.h"
 #include "game.h"
 #include "sdl.h"
-#include "tests.h"
 #include "background.h"
 
 int
@@ -17,17 +16,12 @@ main(void)
 
     struct sdl_connector * sdlconn = sdl_conn__init(conn_params);
 
-    struct game_params game_params = {
-        .num_lives = 3
-    };
-
-    struct game * game = game__init(game_params);
+    struct game * game = game__init();
 
     // Connects initialized SDL subsystem to the game
     game->sdlconn = sdlconn;
 
     background__draw(game);
-    tests__run();
     game__blit(game);
     game__wait(game, 1000);
 

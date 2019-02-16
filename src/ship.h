@@ -6,14 +6,6 @@
 #include "control.h"
 
 
-struct ship_params {
-    struct gameobj_params base;
-    int active_bullet_count;
-    int shot_power_level;
-    float invincibility_timer;
-    int score;
-};
-
 struct ship {
     struct gameobj base;
 
@@ -27,7 +19,7 @@ struct ship {
 };
 
 // Memory management
-struct ship *   ship__init(struct ship_params params);
+struct ship *   ship__init(void);
 void            ship__free(struct ship * self);
 
 // Game loop

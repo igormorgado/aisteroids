@@ -20,6 +20,10 @@ unit_vector(const struct point3f * v, struct point3f * u)
     u->z = v->z / n;
 }
 
+/*
+ * This function changes its own first parameter
+ * should we create a result parameter?
+ */
 void 
 accelerate(struct point3f * velocity, const float acceleration, const float dt)
 {
@@ -28,6 +32,10 @@ accelerate(struct point3f * velocity, const float acceleration, const float dt)
     velocity->z += dt * acceleration;
 }
 
+/*
+ * This function changes its own first parameter
+ * should we create a result parameter?
+ */
 void 
 move(struct point3f * position, const struct point3f *velocity, const float dt)
 {
@@ -36,6 +44,10 @@ move(struct point3f * position, const struct point3f *velocity, const float dt)
     position->z += dt * velocity->z;
 }
 
+/*
+ * This function changes its own first parameter
+ * should we create a result parameter?
+ */
 void 
 rotate(float * angle, const float angVelocity, const float dt)
 {

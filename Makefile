@@ -1,34 +1,63 @@
 SRC_DIR := ./src
 OBJ_DIR := ./obj
+TEST_DIR := ./tests
 UTIL_DIR := ./utils
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 SUP_FILES = $(wildcard $(UTIL_DIR)/*.supp)
 PERF_FILES := aisteroids.gprof gmon.out perf.data perf.data.old report
 
+## Removes main.o to avoid conflicts with main() already referenced
+## How to better handle TEST_BIN_FILES and TEST_BIN_FILESP to avoid
+## two very similar variables contents and keeping the usage in the 
+## `tests` target
+TEST_OBJ_FILES := $(filter-out $(OBJ_DIR)/main.o,$(OBJ_FILES))
+TEST_SRC_FILES := $(wildcard $(TEST_DIR)/*.c)
+TEST_BIN_FILES := $(patsubst $(TEST_DIR)/%.c,%,$(TEST_SRC_FILES))
+TEST_BIN_FILESP := $(foreach file,$(TEST_BIN_FILES), $(TEST_DIR)/bin/$(file))
+TEST_INCLUDES := -I./tests
+
 BIN := aisteroids
 
+CC = gcc
 COMPILE_OPTS = -DDEBUG
 OPTMIZATIONS = -Os 
 
-CC = gcc
+INCLUDES := -I./src
 
-# -Wextra to be added later 
-CFLAGS := -pg -g -ggdb -std=c11 -Wall -Wshadow -Wpedantic `pkg-config --cflags sdl2 SDL2_image`
-LDFLAGS := -pg -lm `pkg-config --libs sdl2 SDL2_image`
+# Libraries Flags
+SDL_CFLAGS = `pkg-config --cflags sdl2 SDL2_image`
+SDL_LDFLAGS = `pkg-config --libs sdl2 SDL2_image`
+
+CFLAGS := -pg -g -ggdb -std=c11 -Wall -Wshadow -Wpedantic  # -Wextra
+CFLAGS += $(SDL_CFLAGS)
+
+LDFLAGS := -pg -lm 
+LDFLAGS += $(SDL_LDFLAGS)
+
+TEST_CFLAGS = 
+TEST_LDFLAGS = -lcunit
 
 SUPFLAGS = $(foreach file,$(SUP_FILES), --suppressions=$(file))
 
-# PURISTFLAGS
-# -Wextra -Werror -Wshadow  -Wno-missing-field-initializers
-#-march=native -msse4.2 -ggdb -flto 
-
-
 $(BIN): $(OBJ_FILES)
-	$(CC) -o $@ $^ $(LDFLAGS) 
+	$(CC) $(INCLUDES) -o $@ $^ $(LDFLAGS) 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) $(COMPILE_OPTS) -c -o $@ $< 
+	$(CC) $(INCLUDES) $(CFLAGS) $(COMPILE_OPTS) -c -o $@ $< 
+
+run_tests: tests
+	@echo Exec the tests: $(TEST_BIN_FILESP)
+
+tests: $(TEST_BIN_FILES) 
+
+tests_clean:
+	echo rm -rf $(TEST_BIN_FILESP)
+
+
+## Why those keep rebuilding even with binaries updated?
+$(TEST_BIN_FILES): $(TEST_OBJ_FILES)
+	$(CC) $(INCLUDES) $(TEST_INCLUDES) $(CFLAGS) $(TEST_CFLAGS) -o $(TEST_DIR)/$@ $(TEST_DIR)/$@.c  $(TEST_OBJ_FILES) $(LDFLAGS) $(TEST_LDFLAGS)
 
 check_static: clean
 	scan-build-3.8 make 
@@ -61,10 +90,13 @@ stud_clean:
 clean: 
 	rm -rf $(BIN) $(OBJ_FILES)  $(PERF_FILES)
 
+
+
 distclean: stud_clean clean
 
 install:
 	@echo "There is no install..." 
 
+tests:
 
-.PHONY: stud stud_clean clean distclean install 
+.PHONY: stud stud_clean clean distclean install tests

@@ -8,42 +8,10 @@
 #include "common.h"
 
 struct ship *
-ship__init(struct ship_params params)
+ship__init(void)
 {
     struct ship * self;
     self = smalloc(sizeof *self);
-    memset(self, 0, sizeof *self);
-
-    self->base.size = params.base.size;
-
-    struct point3f * axis;
-    axis = smalloc(sizeof *axis);
-    memset(axis, 0, sizeof *axis);
-    self->base.axis = axis;
-
-    struct point3f * position;
-    position = smalloc(sizeof *position);
-    memset(position, 0, sizeof *position);
-    self->base.position = position;
-
-    struct point3f * velocity;
-    velocity = smalloc(sizeof *velocity);
-    memset(velocity, 0, sizeof *velocity);
-    self->base.velocity = velocity;
-
-    self->base.acceleration = params.base.acceleration;
-
-    self->base.angle = params.base.angle;
-    self->base.ang_velocity = params.base.ang_velocity;
-
-    struct sphere3f * bound_sphere;
-    bound_sphere = smalloc(sizeof *bound_sphere);
-    memset(bound_sphere, 0, sizeof *bound_sphere);
-    self->base.bound_sphere = bound_sphere;
-
-    self->base.active = params.base.active;
-    self->base.life_timer = params.base.life_timer;
-    self->base.type = params.base.type;
     self->base.obj_flags  = OBJ_RESET;        // Reset flags
     self->base.obj_flags |= OBJ_SHIP;      // Controlled ship has no timer
 
@@ -52,11 +20,11 @@ ship__init(struct ship_params params)
     control = smalloc(sizeof *control);
     self->control = control;
 
-    self->active_bullet_count = params.active_bullet_count;
+    self->score = 0;
     self->thrust = false;
     self->rev_thrust = false;
     self->shot_power_level = 0;
-    self->invincibility_timer = params.invincibility_timer;
+    self->invincibility_timer = 0;
    
     return self;
 }
@@ -64,10 +32,6 @@ ship__init(struct ship_params params)
 void
 ship__free(struct ship * self)
 {
-    sfree(self->base.bound_sphere);
-    sfree(self->base.velocity);
-    sfree(self->base.axis);
-    sfree(self->base.position);
     sfree(self->control);  
     sfree(self);
 }
@@ -76,13 +40,13 @@ void
 ship__update(struct ship * self, float dt)
 {
 	debug_print_ship_fmt(self);
-	accelerate(self->base.velocity, self->base.acceleration, dt);
+	accelerate(&self->base.velocity, self->base.acceleration, dt);
 	debug_print_ship_fmt(self);
-	move(self->base.position, self->base.velocity, dt);
+	move(&self->base.position, &self->base.velocity, dt);
 	debug_print_ship_fmt(self);
 	rotate(&(self->base.angle), self->base.ang_velocity, dt);
 	debug_print_ship_fmt(self);
-	self->base.position->z = 0.0f;
+	self->base.position.z = 0.0f;
 	debug_print_ship_fmt(self);
 	if((self->base.obj_flags & OBJ_NOTIMER) == 0) {
 		self->base.life_timer -= dt;
@@ -141,9 +105,9 @@ ship__turn_stop(struct ship * self)
 void 
 ship__stop(struct ship * self)
 {
-    self->base.velocity->x = 0.;
-    self->base.velocity->y = 0.;
-    self->base.velocity->z = 0.;
+    self->base.velocity.x = 0.;
+    self->base.velocity.y = 0.;
+    self->base.velocity.z = 0.;
     self->base.acceleration = 0.;
 }
 
@@ -213,8 +177,8 @@ ship__fmt(const struct ship * self)
     char * s;
     s = smalloc(tsize + 1);
 
-    char *pp = point3f_fmt(self->base.position);	
-    char *pv = point3f_fmt(self->base.velocity);
+    char *pp = point3f_fmt(&self->base.position);	
+    char *pv = point3f_fmt(&self->base.velocity);
 
     snprintf(s, tsize, "P(%s), V(%s), A(%.2f), O(%.2f), T(%.2f)",
             pp,

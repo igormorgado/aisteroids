@@ -7,33 +7,22 @@
 #include "gameobjlist.h"
 #include "common.h" 
 
-	struct game * 
-game__init(struct game_params params)
+struct game * 
+game__init(void)
 {
 	struct game * self;
 	self = smalloc(sizeof *self);
-	self->num_lives = params.num_lives;
 
 	/* Creates the game object list */
 	struct gameobjlist * list = gameobjlist__init();
 	self->active_obj = list;
 
 	/* Creates a player ship */
-	struct ship_params ship_params = { 
-		.base.size = 1,
-		.base.acceleration = 0,
-		.base.angle = 0,
-		.base.ang_velocity = 0,
-		.base.active = false,
-		.base.life_timer = 0,
-		.base.type = 0,
-		.active_bullet_count = 0,
-		.shot_power_level = 0,
-		.invincibility_timer = 0
-	};
-	struct ship * ship = ship__init(ship_params);
+	struct ship * ship = ship__init();
+	ship->base.size = 1;
+	ship->base.active = true;
+
 	self->main_ship = ship;
-	self->main_ship->base.active = true;
 
 	/* Assigns the ship to the list of active objects */
 	gameobjlist__add(self->active_obj,(struct gameobj *) self->main_ship);

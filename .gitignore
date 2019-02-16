@@ -1,3 +1,5 @@
 *.o
 aisteroids
 stud/bin/*
+tests/bin/*
+gmon.out

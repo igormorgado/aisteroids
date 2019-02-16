@@ -170,7 +170,7 @@ gameobjnode__delete(struct gameobjnode * self)
 void
 gameobjnode__print(struct gameobjnode * self)
 {
-	char *sfmt = point3f_fmt(self->obj->position);
+	char *sfmt = point3f_fmt(&self->obj->position);
 	printf("[%d] - Type: %d - Flags: %d -  Active: %5s - Pos (%s)\n",
 	        self->key,
 	        self->obj->type,

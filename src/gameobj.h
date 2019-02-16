@@ -19,29 +19,24 @@ enum OBJFLAGS
 
 struct gameobj_params
 {
-	float size;
-	float acceleration;		/* scalar acceleration */
-	float angle;                 	/* Angle of direcion xy */
-	float ang_velocity;          	/* Angle change velocity clockwise oriented */
 	bool active;
-	float life_timer;
-	float type;
+	unsigned int obj_flags;      	/* Object flags */
 };
 
 struct gameobj
 {
-	size_t usecnt;
+	size_t usecnt;			/* Object use count */
 	float size;
 
-	struct point3f * axis;
-	struct point3f * position;	/*x,y,z spatial position */
-	struct point3f * velocity;   	/*x,y,z velocity */
+	struct point3f axis;		/* object orientation */
+	struct point3f position;	/* x,y,z spatial position */
+	struct point3f velocity;   	/* x,y,z velocity */
 	float acceleration;		/* scalar acceleration */
 
 	float angle;			/* Angle of direcion xy */
 	float ang_velocity;          	/* Angle change velocity clockwise oriented */
 
-	struct sphere3f * bound_sphere; /* Colision bounded sphere */
+	struct sphere3f bound_sphere;   /* Colision bounded sphere */
 
 	bool active;			/* Is this object active ? */
 
@@ -58,8 +53,9 @@ struct gameobj
 };
 
 // Memory management
-struct gameobj * gameobj__init(const struct gameobj_params params);
+struct gameobj * gameobj__init(void);
 void             gameobj__free(struct gameobj * self);
+void		 gameobj__zero(struct gameobj * self);
 
 void             gameobj__update(struct gameobj * self, float dt);
 char *		 gameobj__fmt(const struct gameobj * self);

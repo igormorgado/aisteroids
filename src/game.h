@@ -32,14 +32,8 @@ enum GAMESTATE
     STATE_GAMEOVER
 };
 
-struct game_params
-{
-    int num_lives;
-};
-
 struct game 
 {
-    struct sdl_connector *sdlconn;
     int space_size;
 
     // Global states
@@ -59,11 +53,12 @@ struct game
     struct human_control * human_control;
     struct ai_control * ai_control;
 
+    struct sdl_connector *sdlconn;
     struct gameobjlist * active_obj;
 };
 
 
-struct game * game__init(struct game_params params);
+struct game * game__init(void);
 void          game__free(struct game * self);
 
 void          game__update(struct game * self, float dt);
