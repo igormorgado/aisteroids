@@ -17,11 +17,10 @@ gameobj__init(void)
 	return self;
 }
 
-void 
+void *
 gameobj__free(struct gameobj * self)
 {
-	sfree(self);
-	self = NULL;
+	return sfree(self);
 }
 
 void

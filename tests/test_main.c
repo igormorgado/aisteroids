@@ -34,7 +34,7 @@ test__gameobj_free(void)
 {
 	struct gameobj * obj1 = gameobj__init();
 	*obj1 = (struct gameobj) TEST_SAMPLE_GAMEOBJECT;
-	gameobj__free(obj1);
+	obj1 = gameobj__free(obj1);
 	/* TODO:  Why the dangling pointer isn't being set to NULL? */
 	CU_ASSERT_PTR_NULL(obj1)
 }

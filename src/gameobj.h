@@ -54,7 +54,7 @@ struct gameobj
 
 // Memory management
 struct gameobj * gameobj__init(void);
-void             gameobj__free(struct gameobj * self);
+void *           gameobj__free(struct gameobj * self);
 void		 gameobj__zero(struct gameobj * self);
 
 void             gameobj__update(struct gameobj * self, float dt);

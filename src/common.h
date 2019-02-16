@@ -6,7 +6,7 @@
   
 
 void * smalloc(size_t n);
-void   sfree(void * p);
+void * sfree(void * p);
 
 #endif /* __COMMON_H__ */
 

@@ -4,7 +4,8 @@
 #include "common.h"
 
 
-void * smalloc(size_t n)
+void *
+smalloc(size_t n)
 {
 	void *p = malloc(n);
 	if (p != NULL) {
@@ -15,14 +16,15 @@ void * smalloc(size_t n)
 	}
 }
 
-void sfree(void * p)
+void *
+sfree(void * p)
 {
 	if (p != NULL) {
 		free(p);
 	} else {
 		debug_print("%s at %p\n", 
 				"Null pointer dereferencing catched",
-				__builtin_return_address(0)
-		);
+				__builtin_return_address(0));
 	}
+	return NULL;
 }
