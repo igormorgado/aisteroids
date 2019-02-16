@@ -35,6 +35,7 @@ enum LOGLEVEL
 		char *s = gameobj__fmt(obj);			\
 		debug_print("%s\n", s);				\
 		free(s);					\
+		s = NULL;					\
 	} while(0)						\
 
 #define debug_print_ship_fmt(ship)				\
@@ -42,6 +43,7 @@ enum LOGLEVEL
 		char *s = ship__fmt(ship);			\
 		debug_print("%s\n", s);				\
 		free(s);					\
+		s = NULL;					\
 	} while(0)						\
 
 #endif /* __DEBUG_H__ */

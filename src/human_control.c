@@ -16,10 +16,10 @@ human_control__init(struct human_control_params params)
 
 }
 
-void
-human_control__destroy(struct human_control * self)
+void *
+human_control__free(struct human_control * self)
 {
-    sfree(self);
+    return sfree(self);
 }
 
 // void

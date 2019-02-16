@@ -12,7 +12,7 @@ struct bullet {
 
 // Memory management
 struct bullet *     bullet__init(struct gameobj * parent);
-void                bullet__free(struct bullet * self);
+void *              bullet__free(struct bullet * self);
 
 // Game loop
 void                bullet__update(struct bullet * self);

@@ -20,7 +20,7 @@ struct ship {
 
 // Memory management
 struct ship *   ship__init(void);
-void            ship__free(struct ship * self);
+void *          ship__free(struct ship * self);
 
 // Game loop
 void            ship__update(struct ship * self, float dt);

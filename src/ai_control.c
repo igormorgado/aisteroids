@@ -15,10 +15,10 @@ ai_control__init(struct ai_control_params params)
     return self;
 }
 
-void
+void *
 ai_control__free(struct ai_control * self)
 {
-    sfree(self);
+    return sfree(self);
 }
 
 void

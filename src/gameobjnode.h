@@ -16,7 +16,7 @@ struct gameobjnode
 
 /* Initializes a Gameobj node struct */
 struct gameobjnode * gameobjnode__init(struct gameobj * obj);
-void                 gameobjnode__free(struct gameobjnode * self);
+void *               gameobjnode__free(struct gameobjnode * self);
 
 /* List handling */
 struct gameobjnode * gameobjnode__first(struct gameobjnode * self);
@@ -31,7 +31,7 @@ struct gameobjnode * gameobjnode__next_by_objflag(struct gameobjnode * self, uns
 void                 gameobjnode__add_after(struct gameobjnode * self, struct gameobj *obj);
 void                 gameobjnode__add_before(struct gameobjnode * self, struct gameobj *obj);
 
-void                 gameobjnode__delete(struct gameobjnode * self);
+void *               gameobjnode__delete(struct gameobjnode * self);
 
 void                 gameobjnode__print(struct gameobjnode *self);
 #endif /* __GAMEOBJNODE_H__ */

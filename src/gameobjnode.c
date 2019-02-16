@@ -22,7 +22,7 @@ gameobjnode__init(struct gameobj * obj)
     return self;
 }
 
-void
+void *
 gameobjnode__free(struct gameobjnode * self)
 {
     if(self->prev)
@@ -37,10 +37,7 @@ gameobjnode__free(struct gameobjnode * self)
      *
      * Or should we return self->obj to be cleaned by caller?
      */
-    
-    sfree(self);
-
-    return;
+    return sfree(self);
 }
 
 struct gameobjnode * 
@@ -154,7 +151,7 @@ gameobjnode__add_before(struct gameobjnode * self, struct gameobj *obj)
     self->prev = newnode;
 }
 
-void 
+void *
 gameobjnode__delete(struct gameobjnode * self)
 {
 
@@ -164,7 +161,7 @@ gameobjnode__delete(struct gameobjnode * self)
     if(self->next)
         self->next->prev = self->prev;
 
-    free(self);
+    return sfree(self);
 }
 
 void
@@ -178,7 +175,7 @@ gameobjnode__print(struct gameobjnode * self)
 	        self->obj->active ? "true":"false",
 		sfmt
 	);
-	free(sfmt);
+	sfree(sfmt);
 }
 
 

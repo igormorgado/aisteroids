@@ -25,8 +25,8 @@ main(void)
     game__blit(game);
     game__wait(game, 1000);
 
-    game__free(game);
-    sdl_conn__free(sdlconn);
+    game = game__free(game);
+    sdlconn = sdl_conn__free(sdlconn);
 
     return 0;
 }

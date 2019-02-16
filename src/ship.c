@@ -29,11 +29,11 @@ ship__init(void)
     return self;
 }
 
-void
+void *
 ship__free(struct ship * self)
 {
     sfree(self->control);  
-    sfree(self);
+    return sfree(self);
 }
 
 void

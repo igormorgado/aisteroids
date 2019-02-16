@@ -26,6 +26,6 @@ struct sdl_connector
 
 
 struct sdl_connector * sdl_conn__init(struct sdl_connector_params params);
-void                   sdl_conn__free(struct sdl_connector * self);
+void *                 sdl_conn__free(struct sdl_connector * self);
 
 #endif /* __SDL_H__ */

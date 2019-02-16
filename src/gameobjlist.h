@@ -14,7 +14,7 @@ struct gameobjlist
 
 
 struct gameobjlist * gameobjlist__init(void);
-void                 gameobjlist__free(struct gameobjlist *self);
+void *               gameobjlist__free(struct gameobjlist *self);
 void                 gameobjlist__add(struct gameobjlist *self, struct gameobj *obj);
 void                 gameobjlist__remove(struct gameobjlist * self, struct gameobjnode *node);
 void                 gameobjlist__remove_by_key(struct gameobjlist * self, int key);

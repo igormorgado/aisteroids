@@ -59,7 +59,7 @@ struct game
 
 
 struct game * game__init(void);
-void          game__free(struct game * self);
+void *        game__free(struct game * self);
 
 void          game__update(struct game * self, float dt);
 void          game__draw(struct game * self);

@@ -47,7 +47,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(INCLUDES) $(CFLAGS) $(COMPILE_OPTS) -c -o $@ $< 
 
 run_tests: tests
-	@echo Exec the tests: $(TEST_BIN_FILESP)
+	./run_tests.sh
 
 tests: $(TEST_TARGETS) 
 

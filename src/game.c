@@ -30,14 +30,14 @@ game__init(void)
 	return self;
 }
 
-void
+void *
 game__free(struct game * self)
 {
 	ship__free(self->main_ship);
 	// human_control__free
 	// ai_control__free
 	// gameobjlist__free(self->active_obj);
-	sfree(self);
+	return sfree(self);
 }
 
 void 

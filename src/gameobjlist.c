@@ -107,7 +107,7 @@ gameobjlist__print(struct gameobjlist *self)
 	}
 }
 
-void
+void *
 gameobjlist__free(struct gameobjlist *self)
 {
 	struct gameobjnode *node;
@@ -119,6 +119,6 @@ gameobjlist__free(struct gameobjlist *self)
 		sfree(node);
 		node = next;
 	}
-	sfree(self);
+	return sfree(self);
 }
 

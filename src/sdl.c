@@ -40,7 +40,7 @@ sdl_conn__init(struct sdl_connector_params params)
 }
 
 
-void
+void *
 sdl_conn__free(struct sdl_connector * self)
 {
     SDL_DestroyRenderer(self->renderer);
@@ -48,5 +48,6 @@ sdl_conn__free(struct sdl_connector * self)
     sfree(self);
     IMG_Quit();
     SDL_Quit();
+    return NULL;
 }
 

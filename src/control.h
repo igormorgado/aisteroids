@@ -23,7 +23,7 @@ struct control
 
 // Memory management
 struct control * control__init(struct control_params params);
-void             control__free(struct control * self);
+void *           control__free(struct control * self);
 
 // Game 
 void             control__update(struct control * self, float dt);

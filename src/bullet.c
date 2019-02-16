@@ -15,10 +15,10 @@ bullet__init(struct gameobj * parent)
     return self;
 }
 
-void
-bullet__destroy(struct bullet * self)
+void *
+bullet__free(struct bullet * self)
 {
-    sfree(self);
+    return sfree(self);
 }
 
 void

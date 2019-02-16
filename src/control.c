@@ -13,10 +13,10 @@ control__init(struct control_params params)
     return self;
 }
 
-void
+void *
 control__free(struct control * self)
 {
-    sfree(self);
+    return sfree(self);
 }
 
 void
