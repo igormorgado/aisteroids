@@ -21,6 +21,7 @@ void
 gameobj__free(struct gameobj * self)
 {
 	sfree(self);
+	self = NULL;
 }
 
 void
