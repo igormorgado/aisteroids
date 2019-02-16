@@ -8,13 +8,13 @@ SUP_FILES = $(wildcard $(UTIL_DIR)/*.supp)
 PERF_FILES := aisteroids.gprof gmon.out perf.data perf.data.old report
 
 ## Removes main.o to avoid conflicts with main() already referenced
-## How to better handle TEST_BIN_FILES and TEST_BIN_FILESP to avoid
+## How to better handle TEST_BIN_FILES and TEST_TARGETS to avoid
 ## two very similar variables contents and keeping the usage in the 
 ## `tests` target
 TEST_OBJ_FILES := $(filter-out $(OBJ_DIR)/main.o,$(OBJ_FILES))
 TEST_SRC_FILES := $(wildcard $(TEST_DIR)/*.c)
-TEST_BIN_FILES := $(patsubst $(TEST_DIR)/%.c,%,$(TEST_SRC_FILES))
-TEST_BIN_FILESP := $(foreach file,$(TEST_BIN_FILES), $(TEST_DIR)/bin/$(file))
+TEST_TARGETS := $(patsubst $(TEST_DIR)/%.c,%,$(TEST_SRC_FILES))
+TEST_BIN_FILES := $(foreach file,$(TEST_TARGETS), $(TEST_DIR)/bin/$(file))
 TEST_INCLUDES := -I./tests
 
 BIN := aisteroids
@@ -49,15 +49,14 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 run_tests: tests
 	@echo Exec the tests: $(TEST_BIN_FILESP)
 
-tests: $(TEST_BIN_FILES) 
+tests: $(TEST_TARGETS) 
 
 tests_clean:
-	echo rm -rf $(TEST_BIN_FILESP)
-
+	rm -rf $(TEST_BIN_FILES)
 
 ## Why those keep rebuilding even with binaries updated?
-$(TEST_BIN_FILES): $(TEST_OBJ_FILES)
-	$(CC) $(INCLUDES) $(TEST_INCLUDES) $(CFLAGS) $(TEST_CFLAGS) -o $(TEST_DIR)/$@ $(TEST_DIR)/$@.c  $(TEST_OBJ_FILES) $(LDFLAGS) $(TEST_LDFLAGS)
+$(TEST_TARGETS): $(TEST_OBJ_FILES)
+	$(CC) $(INCLUDES) $(TEST_INCLUDES) $(CFLAGS) $(TEST_CFLAGS) -o $(TEST_DIR)/bin/$@ $(TEST_DIR)/$@.c  $(TEST_OBJ_FILES) $(LDFLAGS) $(TEST_LDFLAGS)
 
 check_static: clean
 	scan-build-3.8 make 
@@ -90,13 +89,9 @@ stud_clean:
 clean: 
 	rm -rf $(BIN) $(OBJ_FILES)  $(PERF_FILES)
 
-
-
-distclean: stud_clean clean
+distclean: stud_clean clean tests_clean
 
 install:
 	@echo "There is no install..." 
-
-tests:
 
 .PHONY: stud stud_clean clean distclean install tests
