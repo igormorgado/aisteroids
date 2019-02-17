@@ -43,7 +43,7 @@ CFLAGS += $(PEDANTIC_CFLAGS)
 CFLAGS += $(SDL_CFLAGS)
 
 # Linker Flags
-PROF_LDFLAGS := -pg
+#PROF_LDFLAGS := -pg
 TEST_LDFLAGS = -lcunit
 
 LDFLAGS := -lm

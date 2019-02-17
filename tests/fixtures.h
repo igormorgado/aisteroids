@@ -27,7 +27,8 @@
 	obj2->angle = 3.1f;                                             \
 	obj2->ang_velocity = 0.7f;                                      \
 	obj2->active = true;                                            \
-	obj2->life_timer = 0.0f;                                        \
+	obj2->life_timer = 1.0f;                                        \
+	obj2->obj_flags |= OBJ_NOTIMER;					\
 	obj2->type = 0;                                                 \
 	obj2->velocity.x = 0.0f;                                        \
 	obj2->velocity.y = 0.0f;                                        \
