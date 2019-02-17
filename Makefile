@@ -1,64 +1,93 @@
-SRC_DIR := ./src
-OBJ_DIR := ./obj
-TEST_DIR := ./tests
-UTIL_DIR := ./utils
-SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
-OBJ_FILES := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
-SUP_FILES = $(wildcard $(UTIL_DIR)/*.supp)
-PERF_FILES := aisteroids.gprof gmon.out perf.data perf.data.old report
-
-## Removes main.o to avoid conflicts with main() already referenced
-## How to better handle TEST_BIN_FILES and TEST_TARGETS to avoid
-## two very similar variables contents and keeping the usage in the 
-## `tests` target
-TEST_OBJ_FILES := $(filter-out $(OBJ_DIR)/main.o,$(OBJ_FILES))
-TEST_SRC_FILES := $(wildcard $(TEST_DIR)/*.c)
-TEST_TARGETS := $(patsubst $(TEST_DIR)/%.c,%,$(TEST_SRC_FILES))
-TEST_BIN_FILES := $(foreach file,$(TEST_TARGETS), $(TEST_DIR)/bin/$(file))
-TEST_INCLUDES := -I./tests
-
 BIN := aisteroids
 
-CC = gcc
-#DEBUGFLAGS = -DDEBUG
-COMPILE_OPTS = $(DEBUGFLAGS)
-OPTMIZATIONS = -Os 
-
+SRC_DIR := ./src
+OBJ_DIR := ./obj
+UTIL_DIR := ./utils
 INCLUDES := -I./src
+SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
+TEST_DIR := ./tests
+TEST_BIN_DIR := ./tests/bin
+TEST_OBJ_FILES := $(filter-out $(OBJ_DIR)/main.o,$(OBJ_FILES))
+TEST_SRC_FILES := $(wildcard $(TEST_DIR)/*.c)
+TEST_TARGETS := $(patsubst $(TEST_DIR)/%.c,$(TEST_BIN_DIR)/%,$(TEST_SRC_FILES))
+TEST_INCLUDES := -I./tests
+
+PERF_FILES := aisteroids.gprof gmon.out perf.data perf.data.old report
+SUP_FILES = $(wildcard $(UTIL_DIR)/*.supp)
+
+CC = gcc
+#DEBUG_CPPFLAGS = -DDEBUG
+CPPFLAGS = $(DEBUG_CPPFLAGS)
+
+OPTMIZATION_CFLAGS := -Os 
+DEBUG_CFLAGS := -g -ggdb
+PROF_CFLAGS := -pg
+PEDANTIC_CFLAGS := -std=c11 -Wall -Wshadow -Wpedantic  # -Wextra
+TEST_CFLAGS = 
+
+# COMMENT FLAGS DECLARATION ABOVE NOT ASSINGMENT BELOW
+# #####################################################
+#
 # Libraries Flags
 SDL_CFLAGS = `pkg-config --cflags sdl2 SDL2_image`
 SDL_LDFLAGS = `pkg-config --libs sdl2 SDL2_image`
 
-CFLAGS := -pg -g -ggdb -std=c11 -Wall -Wshadow -Wpedantic  # -Wextra
+# GCC Flags
+CFLAGS :=
+CFLAGS += $(DEBUG_CFLAGS)
+CFLAGS += $(OPTIMIZATION_CFLAGS)
+CFLAGS += $(PROF_CFLAGS)
+CFLAGS += $(PEDANTIC_CFLAGS)
 CFLAGS += $(SDL_CFLAGS)
 
-LDFLAGS := -pg -lm 
-LDFLAGS += $(SDL_LDFLAGS)
-
-TEST_CFLAGS = 
+# Linker Flags
+PROF_LDFLAGS := -pg
 TEST_LDFLAGS = -lcunit
 
+LDFLAGS := -lm
+LDFLAGS += $(PROF_LDFLAGS) 
+LDFLAGS += $(SDL_LDFLAGS)
+
+# Valgrind suppression files
 SUPFLAGS = $(foreach file,$(SUP_FILES), --suppressions=$(file))
 
+
+##################################
+# MAIN TARGETS
+##################################
 $(BIN): $(OBJ_FILES)
 	$(CC) $(INCLUDES) -o $@ $^ $(LDFLAGS) 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(INCLUDES) $(CFLAGS) $(COMPILE_OPTS) -c -o $@ $< 
+	$(CC) $(INCLUDES) $(CFLAGS) $(CPPFLAGS) -c -o $@ $< 
 
+clean: 
+	rm -rf $(BIN) $(OBJ_FILES)  $(PERF_FILES) gmon*.out
+
+distclean: stud_clean clean tests_clean
+
+install:
+	@echo "There is no install..." 
+
+###################################
+# TEST TARGETS
+###################################
 run_tests: tests
 	./run_tests.sh
 
-tests: $(TEST_TARGETS) 
+tests: $(TEST_TARGETS)
 
 tests_clean:
-	rm -rf $(TEST_BIN_FILES)
+	rm -rf $(TEST_TARGETS)
 
-## Why those keep rebuilding even with binaries updated?
-$(TEST_TARGETS): $(TEST_OBJ_FILES)
-	$(CC) $(INCLUDES) $(TEST_INCLUDES) $(CFLAGS) $(TEST_CFLAGS) -o $(TEST_DIR)/bin/$@ $(TEST_DIR)/$@.c  $(TEST_OBJ_FILES) $(LDFLAGS) $(TEST_LDFLAGS)
+$(TEST_BIN_DIR)/%: $(TEST_DIR)/%.c $(TEST_OBJ_FILES)
+	$(CC) $(INCLUDES) $(TEST_INCLUDES) $(CFLAGS) $(TEST_CFLAGS) -o $@ $^ $(LDFLAGS) $(TEST_LDFLAGS)
 
+##################################
+# PROFILING TARGETS
+##################################
 check_static: clean
 	scan-build-3.8 make 
 
@@ -82,18 +111,23 @@ profile_gprof: $(BIN)
 	gprof ./aisteroids  > $(BIN).gprof
 
 
+#################################
+# STUDY FILES
+#################################
 stud:
 	make -C stud
 
 stud_clean:
 	make -C stud clean
 
-clean: 
-	rm -rf $(BIN) $(OBJ_FILES)  $(PERF_FILES) gmon*.out
+all: $(BIN) tests stud
 
-distclean: stud_clean clean tests_clean
-
-install:
-	@echo "There is no install..." 
-
-.PHONY: stud stud_clean clean distclean install tests
+#################################
+# PHONY
+#################################
+.PHONY: all clean distclean install \
+	stud stud_clean \
+	tests tests_clean run_tests \
+	check_static check_leaks \
+	valg_gen_supp valg_supp_merge \
+	profile_perf profile_gprof
