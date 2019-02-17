@@ -1,6 +1,11 @@
 #!/bin/bash
 
+make tests
+
 for test in tests/bin/*
 do
-	[ -x "${test}" ] && ./${test}
+	if [ -x "${test}" ]
+	then
+		./${test}
+	fi
 done

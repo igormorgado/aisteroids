@@ -60,8 +60,8 @@ point3f_fmt(const struct point3f * vector)
 {
     char * s;
     const int nsize = 3;     // Number of elements in vector
-    const int vsize = 5;     // Vector total size
-    const int fsize = 2;     // Float precision size
+    const int fsize = 10;     // Float precision size
+    const int vsize = 3+fsize;     // Vector total size
     const int tsize = (nsize * (vsize + 1)) + (2 * (nsize - 1));
 
     s = smalloc(tsize + 1);

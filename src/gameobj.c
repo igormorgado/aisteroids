@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "debug.h"
 #include "gameobj.h"
 #include "phys.h"
 #include "common.h"
@@ -32,20 +33,31 @@ gameobj__zero(struct gameobj * self)
 void
 gameobj__update(struct gameobj * self, float dt)
 {
+	debug_print_gameobj_fmt(self);
 	accelerate(&self->velocity, self->acceleration, dt);
+	debug_print_gameobj_fmt(self);
 	move(&self->position, &self->velocity, dt);
+	debug_print_gameobj_fmt(self);
 	rotate(&(self->angle), self->ang_velocity, dt);
 
+	debug_print_gameobj_fmt(self);
 	self->position.z = 0.0f;
 
+	debug_print_gameobj_fmt(self);
 	if((self->obj_flags & OBJ_NOTIMER) == 0) {
 		self->life_timer -= dt;
-		if(self->life_timer < 0.0f) {
+		if(self->life_timer <= 0.0f) {
 			self->active = false;
 		}
 	}
 }
 
+/*
+ * TODO:
+ * Is there anyway to avoid call FREE() on gameobj__fmt caller?
+ * Is possible to return a string instead a pointer to char?
+ * Because it leaks if forgotten=(
+ */
 char *
 gameobj__fmt(const struct gameobj * self)
 {

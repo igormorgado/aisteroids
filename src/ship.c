@@ -32,7 +32,7 @@ ship__init(void)
 void *
 ship__free(struct ship * self)
 {
-    sfree(self->control);  
+    self->control = control__free(self->control);  
     return sfree(self);
 }
 
@@ -41,16 +41,24 @@ ship__update(struct ship * self, float dt)
 {
 	debug_print_ship_fmt(self);
 	accelerate(&self->base.velocity, self->base.acceleration, dt);
+
 	debug_print_ship_fmt(self);
 	move(&self->base.position, &self->base.velocity, dt);
+
 	debug_print_ship_fmt(self);
 	rotate(&(self->base.angle), self->base.ang_velocity, dt);
+
 	debug_print_ship_fmt(self);
 	self->base.position.z = 0.0f;
+
+	self->invincibility_timer -= dt;
+	if(self->invincibility_timer <= 0.0f)
+		self->invincibility_timer = 0.0f;
+
 	debug_print_ship_fmt(self);
 	if((self->base.obj_flags & OBJ_NOTIMER) == 0) {
 		self->base.life_timer -= dt;
-		if(self->base.life_timer < 0.0f) {
+		if(self->base.life_timer <= 0.0f) {
 			self->base.active = false;
 		}
 	}
@@ -120,7 +128,7 @@ ship__hyperspace(struct ship * self)
 void 
 ship__get_powerup(struct ship * self, int powerup)
 {
-    ;
+    self->shot_power_level += powerup;
 }
 
 int 
@@ -140,7 +148,7 @@ ship__inc_num_bullets(struct ship * self, int num)
 }
 
 void 
-ship__make_incincible(struct ship * self, float time)
+ship__make_invincible(struct ship * self, float time)
 {
     self->invincibility_timer += time;
 }
@@ -173,7 +181,7 @@ ship__get_closest_gun_angle(struct ship * self, float angle)
 char *
 ship__fmt(const struct ship * self)
 {
-    const size_t tsize = 100;
+    const size_t tsize = 130;
     char * s;
     s = smalloc(tsize + 1);
 

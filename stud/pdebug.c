@@ -4,8 +4,8 @@
 
 #define DEBUG 1
 
-const int vsize = 5;     // Vector total size
-const int fsize = 2;     // Float precision size
+const int fsize = 3;		// Float precision size
+const int vsize = 3 + fsize;	// Vector total size
 
 #define debug_print(fmt, ...)					\
 	do {							\

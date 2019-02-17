@@ -20,7 +20,8 @@ TEST_INCLUDES := -I./tests
 BIN := aisteroids
 
 CC = gcc
-COMPILE_OPTS = -DDEBUG
+#DEBUGFLAGS = -DDEBUG
+COMPILE_OPTS = $(DEBUGFLAGS)
 OPTMIZATIONS = -Os 
 
 INCLUDES := -I./src
@@ -88,7 +89,7 @@ stud_clean:
 	make -C stud clean
 
 clean: 
-	rm -rf $(BIN) $(OBJ_FILES)  $(PERF_FILES)
+	rm -rf $(BIN) $(OBJ_FILES)  $(PERF_FILES) gmon*.out
 
 distclean: stud_clean clean tests_clean
 

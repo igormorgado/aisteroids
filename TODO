@@ -1,12 +1,21 @@
-Implement full virtual table in classes
-Implement object count.
-Implement object freeing by queue.
-Move from dinamyc allocation to a static allocator.
-
 Tests to GAMEOBJ "class" check if active becomes inactive after some dt. Test if no timer do not suffer of that.
-
+Separate TESTs by "classes"
+Finish GAMEOBJNODE tests
+Finish GAMEOBJNODE implementation
+Finish GAMEOBJLIST tests
+Finish GAMEOBJLIST implementation
+ADD velocity to gameobj_fmt
 
 GAME__UPDATE: to pass thru all active objects with debuggings on
 Collisions detections
 Write draw functions to basic objects (ship, asteroid)
+
+Classes and objects
+	Implement full virtual table in classes
+	Implement object count.
+	Implement object freeing by queue.
+
+Memory Management
+Move from dinamyc allocation to a static allocator.
+
 
