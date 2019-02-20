@@ -8,8 +8,8 @@
 struct gameobjlist
 {
     size_t        size;
-    gameobjnode_st * head;
-    gameobjnode_st * tail;
+    struct gameobjnode * head;
+    struct gameobjnode * tail;
 };
 
 

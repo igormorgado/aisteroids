@@ -124,31 +124,45 @@ gameobjnode__last(struct gameobjnode *self)
 
 
 void
-gameobjnode__add_after(struct gameobjnode * self, struct gameobj * obj)
+gameobjnode__add_after(struct gameobjnode * self, struct gameobjnode * node)
+{
+	if(self) {
+		if(self->next) {
+			node->next = self->next;
+			self->next->prev = node;
+		}
+		self->next = node;
+	}
+	node->prev = self;
+}
+
+struct gameobjnode *
+gameobjnode__add_gameobj_after(struct gameobjnode * self, struct gameobj * obj)
 {
     struct gameobjnode * newnode = gameobjnode__init(obj);
-
-    if(self->next) {
-        newnode->next = self->next;
-        self->next->prev = newnode;
-    }
-
-    newnode->prev = self;
-    self->next = newnode;
+    gameobjnode__add_after(self, newnode);
+    return newnode;
 }
 
 void
-gameobjnode__add_before(struct gameobjnode * self, struct gameobj *obj)
+gameobjnode__add_before(struct gameobjnode * self, struct gameobjnode *node)
+{
+	if(self) {
+		if(self->prev) {
+			node->prev = self->prev;
+			self->prev->next = node;
+		}
+		self->prev = node;
+	}
+	node->next = self;
+}
+
+struct gameobjnode *
+gameobjnode__add_gameobj_before(struct gameobjnode * self, struct gameobj * obj)
 {
     struct gameobjnode * newnode = gameobjnode__init(obj);
-
-    if(self->prev) {
-        newnode->prev = self->prev;
-        self->prev->next = newnode;
-    }
-
-    newnode->next = self;
-    self->prev = newnode;
+    gameobjnode__add_before(self, newnode);
+    return newnode;
 }
 
 void *

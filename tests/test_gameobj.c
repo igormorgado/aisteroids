@@ -9,7 +9,7 @@ void
 test__gameobj_create_initalization(void)
 {
 	SETUP_GAMEOBJ1_TEST;
-
+	CU_ASSERT_PTR_NOT_NULL(obj1);
 	CU_ASSERT_DOUBLE_EQUAL(obj1->position.x, 1.1f, eps);
 	CU_ASSERT_DOUBLE_EQUAL(obj1->angle, 3.0f, eps);
 	CU_ASSERT_TRUE(obj1->active);

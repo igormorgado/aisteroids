@@ -1,4 +1,3 @@
-Tests to GAMEOBJ "class" check if active becomes inactive after some dt. Test if no timer do not suffer of that.
 Finish GAMEOBJNODE tests
 Finish GAMEOBJNODE implementation
 Finish GAMEOBJLIST tests

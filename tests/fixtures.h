@@ -42,7 +42,7 @@
 
 #define SETUP_GAMEOBJ3_TEST						\
 	struct gameobj * obj3 = gameobj__init();			\
-	obj3->size = 2.0f;						\
+	obj3->size = 3.0f;						\
 	obj3->acceleration = .2f;                                       \
 	obj3->angle = 3.1f;                                             \
 	obj3->ang_velocity = 0.7f;                                      \

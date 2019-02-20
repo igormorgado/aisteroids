@@ -18,14 +18,14 @@ PERF_FILES := aisteroids.gprof gmon.out perf.data perf.data.old report
 SUP_FILES = $(wildcard $(UTIL_DIR)/*.supp)
 
 CC = gcc
-#DEBUG_CPPFLAGS = -DDEBUG
-CPPFLAGS = $(DEBUG_CPPFLAGS)
 
-OPTMIZATION_CFLAGS := -Os 
-DEBUG_CFLAGS := -g -ggdb
-PROF_CFLAGS := -pg
+#DEBUG_CPPFLAGS = -DDEBUG
+
+# PROF_CFLAGS := -pg
+# OPTMIZATION_CFLAGS := -Os 
+# TEST_CFLAGS = 
+# DEBUG_CFLAGS := -g -ggdb
 PEDANTIC_CFLAGS := -std=c11 -Wall -Wshadow -Wpedantic  # -Wextra
-TEST_CFLAGS = 
 
 # COMMENT FLAGS DECLARATION ABOVE NOT ASSINGMENT BELOW
 # #####################################################
@@ -34,10 +34,14 @@ TEST_CFLAGS =
 SDL_CFLAGS = `pkg-config --cflags sdl2 SDL2_image`
 SDL_LDFLAGS = `pkg-config --libs sdl2 SDL2_image`
 
+# CPP Flags
+CPPFLAGS :=
+CPPFLAGS += $(DEBUG_CPPFLAGS)
+
 # GCC Flags
 CFLAGS :=
 CFLAGS += $(DEBUG_CFLAGS)
-CFLAGS += $(OPTIMIZATION_CFLAGS)
+CFLAGS += $(OPTMIZATION_CFLAGS)
 CFLAGS += $(PROF_CFLAGS)
 CFLAGS += $(PEDANTIC_CFLAGS)
 CFLAGS += $(SDL_CFLAGS)
@@ -53,7 +57,6 @@ LDFLAGS += $(SDL_LDFLAGS)
 # Valgrind suppression files
 SUPFLAGS = $(foreach file,$(SUP_FILES), --suppressions=$(file))
 
-
 ##################################
 # MAIN TARGETS
 ##################################
@@ -61,7 +64,7 @@ $(BIN): $(OBJ_FILES)
 	$(CC) $(INCLUDES) -o $@ $^ $(LDFLAGS) 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(INCLUDES) $(CFLAGS) $(CPPFLAGS) -c -o $@ $< 
+	$(CC) $(INCLUDES) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ 
 
 clean: 
 	rm -rf $(BIN) $(OBJ_FILES)  $(PERF_FILES) gmon*.out
@@ -83,7 +86,7 @@ tests_clean:
 	rm -rf $(TEST_TARGETS)
 
 $(TEST_BIN_DIR)/%: $(TEST_DIR)/%.c $(TEST_OBJ_FILES)
-	$(CC) $(INCLUDES) $(TEST_INCLUDES) $(CFLAGS) $(TEST_CFLAGS) -o $@ $^ $(LDFLAGS) $(TEST_LDFLAGS)
+	$(CC) $(INCLUDES) $(TEST_INCLUDES) $(CFLAGS) $(TEST_CFLAGS) $(LDFLAGS) $(TEST_LDFLAGS) $^ -o $@
 
 ##################################
 # PROFILING TARGETS
