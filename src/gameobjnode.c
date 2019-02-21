@@ -43,35 +43,35 @@ gameobjnode__free(struct gameobjnode * self)
 struct gameobjnode * 
 gameobjnode__next(struct gameobjnode * self)
 {
-    return self->next;
+	if(self && self->next) 
+		return self->next;
+	return NULL;
 }
 
 struct gameobjnode *
 gameobjnode__prev(struct gameobjnode * self)
 {
-    return self->prev;
+	if(self && self->prev) 
+		return self->prev;
+	return NULL;
 }
 
 struct gameobjnode *
 gameobjnode__first(struct gameobjnode *self)
 {
-    struct gameobjnode * pnode = self;
-    while(pnode)
-    {
-        pnode = gameobjnode__prev(self);
-    }
-    return pnode;
+	struct gameobjnode * pnode = self;
+	while(pnode->prev) 
+		pnode = gameobjnode__prev(pnode);
+	return pnode;
 }
 
 struct gameobjnode *
 gameobjnode__last(struct gameobjnode *self)
 {
-    struct gameobjnode * pnode = self;
-    while(pnode)
-    {
-        pnode = gameobjnode__next(self);
-    }
-    return pnode;
+	struct gameobjnode * pnode = self;
+	while(pnode->next)
+		pnode = gameobjnode__next(pnode);
+	return pnode;
 }
 
 // struct gameobjnode *
