@@ -1,5 +1,5 @@
-#ifndef __MOCKS_H__
-#define __MOCKS_H__
+#ifndef __FIXTURES_H__
+#define __FIXTURES_H__
 
 #define SETUP_GAMEOBJ1_TEST						\
 	struct gameobj * obj1 = gameobj__init();			\
@@ -94,7 +94,15 @@
 	TEARDOWN_GAMEOBJ3_TEST;						\
 	TEARDOWN_SHIP1_TEST;						\
 
-#endif /* __MOCKS_H__ */
+
+#define SETUP_GAMEOBJLIST_TEST						\
+	SETUP_GAMEOBJNODE_TEST;						\
+
+#define TEARDOWN_GAMEOBJLIST_TEST					\
+	TEARDOWN_GAMEOBJNODE_TEST;
+
+
+#endif /* __FIXTURES_H__ */
 
 
 

@@ -25,7 +25,7 @@ game__init(void)
 	self->main_ship = ship;
 
 	/* Assigns the ship to the list of active objects */
-	gameobjlist__add(self->active_obj,(struct gameobj *) self->main_ship);
+	gameobjlist__push_head(self->active_obj,(struct gameobj *) self->main_ship);
 
 	return self;
 }
