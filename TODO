@@ -1,7 +1,4 @@
-Finish GAMEOBJNODE tests
-Finish GAMEOBJNODE implementation
-Finish GAMEOBJLIST tests
-Finish GAMEOBJLIST implementation
+If any test fails returns a non zero value
 ADD velocity to gameobj_fmt
 
 GAME__UPDATE: to pass thru all active objects with debuggings on

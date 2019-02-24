@@ -11,8 +11,8 @@
 struct gameobjlist
 {
     size_t        size;
-    struct gameobjnode * head;
-    struct gameobjnode * tail;
+    struct gameobjnode * front;
+    struct gameobjnode * back;
 };
 
 
@@ -21,17 +21,18 @@ void *			gameobjlist__free(struct gameobjlist *self);
 void *			gameobjlist__free_list(struct gameobjlist *self);
 void *			gameobjlist__free_nodes(struct gameobjlist *self);
 void *			gameobjlist__free_objects(struct gameobjlist *self);
-int			gameobjlist__size(struct gameobjlist * self);
+size_t			gameobjlist__size(struct gameobjlist * self);
+bool			gameobjlist__empty(struct gameobjlist * self);
 
 // TODO: SHould these work with gameobj instead nodes?
-struct gameobjnode *	gameobjlist__begin(struct gameobjlist * self);
-struct gameobjnode * 	gameobjlist__end(struct gameobjlist * self);
-void                 	gameobjlist__push_head(struct gameobjlist *self, struct gameobj *obj);
-struct gameobj *     	gameobjlist__peek_head(struct gameobjlist *self);
-struct gameobj *     	gameobjlist__pop_head(struct gameobjlist *self);
-void                 	gameobjlist__push_tail(struct gameobjlist *self, struct gameobj *obj);
-struct gameobj *     	gameobjlist__peek_tail(struct gameobjlist *self);
-struct gameobj *     	gameobjlist__pop_tail(struct gameobjlist *self);
+struct gameobjnode *	gameobjlist__front(struct gameobjlist * self);
+struct gameobjnode * 	gameobjlist__back(struct gameobjlist * self);
+void                 	gameobjlist__push_front(struct gameobjlist *self, struct gameobj *obj);
+struct gameobj *     	gameobjlist__peek_front(struct gameobjlist *self);
+struct gameobj *     	gameobjlist__pop_front(struct gameobjlist *self);
+void                 	gameobjlist__push_back(struct gameobjlist *self, struct gameobj *obj);
+struct gameobj *     	gameobjlist__peek_back(struct gameobjlist *self);
+struct gameobj *     	gameobjlist__pop_back(struct gameobjlist *self);
 // void                 gameobjlist__remove(struct gameobjlist * self, struct gameobjnode *node);
 // void                 gameobjlist__remove_by_key(struct gameobjlist * self, int key);
 // void                 gameobjlist__remove_by_pos(struct gameobjlist * self, int pos);

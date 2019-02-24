@@ -1,6 +1,6 @@
 #include "test_ship.h"
 
-const double eps = 1e-2f;
+const double eps = 1e-9;
 
 int init_suite(void) { return 0; }
 int clean_suite(void) { return 0; }

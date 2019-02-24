@@ -3,17 +3,6 @@
 int init_suite(void) { return 0; }
 int clean_suite(void) { return 0; }
 
-/*
-	gameobj__print(obj1);
-	gameobj__print(obj2);
-	gameobj__print(obj3);
-	gameobj__print((struct gameobj *) ship1);
-	printf("\n%s\n", gameobj__fmt(obj1));
-	printf("%s\n", gameobj__fmt(obj2));
-	printf("%s\n", gameobj__fmt(obj3));
-	printf("%s\n", ship__fmt(ship1));
-*/
-
 void
 test__gameobjnode_create_alloc_correctly(void)
 {
