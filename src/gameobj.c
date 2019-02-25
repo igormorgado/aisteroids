@@ -61,17 +61,20 @@ gameobj__update(struct gameobj * self, float dt)
 char *
 gameobj__fmt(const struct gameobj * self)
 {
-	const size_t tsize = 100;
+	const size_t tsize = 130;
 	char * pos = point3f_fmt(&self->position);
+	char * vel = point3f_fmt(&self->velocity);
 	char * s = smalloc(tsize + 1);
 
-	snprintf(s, tsize, "Type: %d - Flags: %d - Active: %5s - Pos (%s)\n",
+	snprintf(s, tsize, "Type: %d - Flags: %d - Active: %5s - Pos (%s) - Vel (%s)\n",
 			self->type,
 			self->obj_flags,
 			self->active ? "true":"false",
-			pos
+			pos,
+			vel
 		);
 	sfree(pos);
+	sfree(vel);
 	return s;
 
 }

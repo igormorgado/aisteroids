@@ -197,3 +197,5 @@ ship__fmt(const struct ship * self)
     sfree(pp);
     return s;
 }
+
+

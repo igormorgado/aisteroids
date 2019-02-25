@@ -1,13 +1,17 @@
-If any test fails returns a non zero value
-ADD velocity to gameobj_fmt
+Assign update functions to game objs, otherwise functions will call NULL functions. and segv.
 
+gameobjlist__remove
+gameobjlist__next
+gameobjlist__prev
+
+Test Game.c functions
 GAME__UPDATE: to pass thru all active objects with debuggings on
 Collisions detections
 Write draw functions to basic objects (ship, asteroid)
 
 Classes and objects
 	Implement full virtual table in classes
-	Implement object count.
+	Implement object count usage.
 	Implement object freeing by queue.
 
 Memory Management

@@ -1,6 +1,6 @@
 #include "test_gameobj.h"
 
-const double eps = 1e-9;
+const double eps = 1e-2;
 
 int init_suite(void) { return 0; }
 int clean_suite(void) { return 0; }
@@ -172,8 +172,13 @@ main (void)
 
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
-	CU_basic_show_failures(CU_get_failure_list());
 
+	struct CU_FailureRecord * failures = CU_get_failure_list();
+	CU_basic_show_failures(failures);
 	CU_cleanup_registry();
+
+	if (failures)
+		return 1;
+
 	return CU_get_error();
 }

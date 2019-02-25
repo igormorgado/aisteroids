@@ -13,7 +13,7 @@ all: $(BIN_FILES)
 .PHONY: clean all
 
 %: %.c
-	$(CC) $(CFLAGS) -o $(BIN_DIR)/$@ $< $(LDFLAGS) 
+	$(CC) $(CFLAGS) $< $(LDFLAGS) -o $(BIN_DIR)/$@ 
 
 # $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 # 	$(CC) $(CFLAGS) $(COMPILE_OPTS) -c -o $@ $< 

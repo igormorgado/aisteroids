@@ -79,6 +79,7 @@ void          game__wave_over(struct game * self);
 void          game__over(struct game * self);
 void          game__kill_ship(struct game * self, struct ship * ship);
 
+struct gameobj * game__check_collision(struct gameobj * pobj, struct gameobjlist * list);
 
 
 #endif /* __GAME_H__ */

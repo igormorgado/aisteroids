@@ -46,8 +46,8 @@ struct gameobj
 	unsigned int obj_flags;      	/* Object flags */
 
 	void (*draw)(void);          	/* Pointer to the specialized object draw */
-	void (*update)(void);        	/* Pointer to the specialized object update */
-	void (*is_colliding)(void);  	/* Pointer to the function that check colision */
+	void (*update)(struct gameobj * self, float dt);        	/* Pointer to the specialized object update */
+	bool (*is_colliding)(struct gameobj * self, struct gameobj * other);  	/* Pointer to the function that check colision */
 	void (*do_collision)(struct gameobj * self);  /* Pointer to the function that executes colision */
 	void (*explode)(void);		/* Pointer to the function that executes explosion */
 };

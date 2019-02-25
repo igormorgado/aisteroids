@@ -19,6 +19,12 @@ SUP_FILES = $(wildcard $(UTIL_DIR)/*.supp)
 
 CC = gcc
 
+ifeq ($(DEBUG),"yes")
+	@echo "We have debug"
+	DEBUG_CPPFLAGS = -DDEBUG
+	DEBUG_CFLAGS := -g -ggdb
+endif
+
 #DEBUG_CPPFLAGS = -DDEBUG
 
 # PROF_CFLAGS := -pg
@@ -56,6 +62,8 @@ LDFLAGS += $(SDL_LDFLAGS)
 
 # Valgrind suppression files
 SUPFLAGS = $(foreach file,$(SUP_FILES), --suppressions=$(file))
+
+all: $(BIN) tests
 
 ##################################
 # MAIN TARGETS
@@ -123,7 +131,6 @@ stud:
 stud_clean:
 	make -C stud clean
 
-all: $(BIN) tests stud
 
 #################################
 # PHONY

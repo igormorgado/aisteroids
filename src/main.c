@@ -22,6 +22,7 @@ main(void)
     game->sdlconn = sdlconn;
 
     background__draw(game);
+    game__update(game, 0.01);
     game__blit(game);
     game__wait(game, 1000);
 

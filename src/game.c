@@ -12,6 +12,7 @@ game__init(void)
 {
 	struct game * self;
 	self = smalloc(sizeof *self);
+	memset(self, 0, sizeof *self);
 
 	/* Creates the game object list */
 	struct gameobjlist * list = gameobjlist__init();
@@ -68,11 +69,64 @@ game__wait(struct game *self, int wait)
 	SDL_Delay(wait);
 }
 
+struct gameobj *
+game__check_collision(struct gameobj * pobj, struct gameobjlist * list)
+{
+	struct gameobj * pobjcol = NULL;
+	struct gameobjnode * pnode = NULL;
+
+	pnode = list->front;
+	while(pnode) {
+		pobjcol = pnode->obj;
+		if(pobj == pobjcol)
+			continue;
+		if(pobj->is_colliding(pobj, pobjcol) == true)
+			return pobjcol;
+
+		pnode = pnode->next;
+	}
+	return NULL;
+}
 
 void
 game__update(struct game *self, float dt)
 {
-	struct gameobjlist * list1 = gameobjlist__init();
+	struct gameobj * pobj = NULL;
+	struct gameobj * pobjcol = NULL;
+	struct gameobjnode * pnode = NULL;
 
-	gameobjlist__free(list1);
+	if (self) {
+		pnode = self->active_obj->front;
+	}
+
+	if(pnode->obj) {
+		pobj = pnode->obj;
+	}
+
+	while(pobj)
+	{
+		// If object active  update positions
+		if(pobj->active == true) {
+			pobj->update(pobj, dt);
+		} else {
+			continue;
+		}
+
+		// Check if `pobj` coliding with any other game obj?
+		if((pobj->obj_flags & OBJ_NONE) == 0) {
+			pobjcol = game__check_collision(pobj, self->active_obj);
+		}
+		
+		// If `pobj` colided with `poblcol`, do proper actions
+		if(pobjcol) {
+			pobj->explode();
+			pobj->do_collision(pobjcol);
+			pobjcol = NULL;
+		}
+		
+		pnode = pnode->next;
+		if (pnode) {
+			pobj = pnode->obj;
+		}
+	}
 }

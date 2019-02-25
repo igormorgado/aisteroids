@@ -19,8 +19,10 @@ struct sdl_connector
     SDL_Window *window;
     int renderer_flags;
     int window_flags;
-    int screen_width;
-    int screen_height;
+    int window_x;
+    int window_y;
+    int window_w;
+    int window_h;
     int screen_mode;
 };
 

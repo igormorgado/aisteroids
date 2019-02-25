@@ -33,6 +33,8 @@ struct gameobj *     	gameobjlist__pop_front(struct gameobjlist *self);
 void                 	gameobjlist__push_back(struct gameobjlist *self, struct gameobj *obj);
 struct gameobj *     	gameobjlist__peek_back(struct gameobjlist *self);
 struct gameobj *     	gameobjlist__pop_back(struct gameobjlist *self);
+
+
 // void                 gameobjlist__remove(struct gameobjlist * self, struct gameobjnode *node);
 // void                 gameobjlist__remove_by_key(struct gameobjlist * self, int key);
 // void                 gameobjlist__remove_by_pos(struct gameobjlist * self, int pos);
