@@ -1,0 +1,3 @@
+:list-sessions
+prefix m  ->select window
+prefix s  ->paste window
